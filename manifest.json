@@ -6,7 +6,8 @@
 	"content_scripts": [
 		{
 			"matches": ["http://www.zdnet.com/*"],
-			"js": ["javascript/libs/jquery-2.0.3.min.js", "javascript/app.js"]
+			"js": ["javascript/libs/jquery-2.0.3.min.js", 
+			  "javascript/libs/waitForKeyElements.js", "javascript/app.js"]
 		}
 	],
 	"permissions": ["http://*.zdnet.com/", "https://*.zdnet.com/"],
