@@ -23,11 +23,20 @@ myFilter.functions.isTroll = function(author) {
 		return false;
 	}
 	// Outer loop - the array of troll names to check against
-	myFilter.globals.filterList.some(function(memberArray) {
+	myFilter.globals.filterList.some(function(memberValue) {
 		isMember = true;
+		var memberArray = [];
+		console.log("memberValue = " + memberValue);
+		if (!$.isArray(memberValue)) {
+			memberArray.push(memberValue);
+		}
+		else {
+			memberArray = memberValue;
+		}
+		
 		console.log("memberArray = " + memberArray);
 		memberArray.forEach(function(member) {
-			console.log("processing " + member);
+			console.log("Processing member " + member);
 			// Inner loop - the individual parts of the troll's name is an array too,
 			// although that array may have only one member.  We return true if
 			// *every part* of the troll's name is containe within the author's name.
@@ -62,20 +71,21 @@ myFilter.functions.processTrolls = function($authors) {
 	});
 };
 
-// waitForKeyElements runs on Ajax loaded data, so it gets triggered
-// by the Previous and Next buttons, instead of just when the DOM is
-// first loaded.
-// We want to monitor all divs with the "author" class that are inside
-// the id="comments" block.
-waitForKeyElements("#comments .author", myFilter.functions.processTrolls);
 
 $(function() {
 	console.log("Forum troll blocker started");
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
 		var currentID, newValues;
+		var processedArray;
 		myFilter.globals.filterList = settings.forumBlockerSettings.trollList["zdnetTrollList"];
 		console.log("Just retrieved filter list is " + JSON.stringify(myFilter.globals.filterList));
 		myFilter.functions.processTrolls($("#comments .author"));
-	});
 
+	});
+		// waitForKeyElements runs on Ajax loaded data, so it gets triggered
+// by the Previous and Next buttons, instead of just when the DOM is
+// first loaded.
+// We want to monitor all divs with the "author" class that are inside
+// the id="comments" block.
+waitForKeyElements("#comments .author", myFilter.functions.processTrolls);
 });
