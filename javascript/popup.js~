@@ -12,7 +12,7 @@ mySettings.functions.saveSettings = function() {
 	var $trollLists = $("textarea.trollList");
 	$.each($trollLists, function(index, value) {
 		trollListSource = $(value).val().split(/\n/);
-		settings.trollList[$(value).attr("id")] = trollListSource.join("\n");
+		settings.trollList[$(value).attr("id")] = trollListSource.join(/\n/);
 	});
 	chrome.storage.sync.set({
 		'forumBlockerSettings' : settings
