@@ -12,15 +12,22 @@ myFilter.globals = myFilter.globals || {};
 // he's banned.  So, he migh be Owlnet, Owllnet, Owlllnet and so on.  In that case,
 // I specify the name as a two part array - "owl" and "net" - and let the isTroll()
 // function check to see if both of those name chunks are in the Author name.
-myFilter.globals.filterList = [["william farrel"], ["owl", "net"], ["toddbottom"], ["loverock", "davidson"]];
+// myFilter.globals.filterList = [["william farrel"], ["owl", "net"], ["toddbottom"], ["loverock", "davidson"]];
 
 myFilter.functions.isTroll = function(author) {
 	// Loop throuh the master filter list, which is an array of arrays (see above).
 	var isMember;
+	console.log("isTroll: Retrieved filter list is " + JSON.stringify(myFilter.globals.filterList));
+	if (!myFilter.globals.filterList) {
+		console.log("isTroll: Retrieved filter list is undefined, exiting function.");
+		return false;
+	}
 	// Outer loop - the array of troll names to check against
 	myFilter.globals.filterList.some(function(memberArray) {
 		isMember = true;
+		console.log("memberArray = " + memberArray);
 		memberArray.forEach(function(member) {
+			console.log("processing " + member);
 			// Inner loop - the individual parts of the troll's name is an array too,
 			// although that array may have only one member.  We return true if
 			// *every part* of the troll's name is containe within the author's name.
@@ -40,6 +47,7 @@ myFilter.functions.isTroll = function(author) {
 myFilter.functions.processTrolls = function($authors) {
 	// Loop through all the authors and check them off against our master troll list
 	// via the isTroll() function.
+	console.log("processing trolls...");
 	var author;
 	$authors.each(function(index, $author) {
 		author = $($author).html();
@@ -63,4 +71,11 @@ waitForKeyElements("#comments .author", myFilter.functions.processTrolls);
 
 $(function() {
 	console.log("Forum troll blocker started");
+	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
+		var currentID, newValues;
+		myFilter.globals.filterList = settings.forumBlockerSettings.trollList["zdnetTrollList"];
+		console.log("Just retrieved filter list is " + JSON.stringify(myFilter.globals.filterList));
+		myFilter.functions.processTrolls($("#comments .author"));
+	});
+
 });

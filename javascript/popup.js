@@ -12,7 +12,7 @@ mySettings.functions.saveSettings = function() {
 	var $trollLists = $("textarea.trollList");
 	$.each($trollLists, function(index, value) {
 		trollListSource = $(value).val().split(/\n/);
-		settings.trollList[$(value).attr("id")] = trollListSource.join("\n");
+		settings.trollList[$(value).attr("id")] = trollListSource;
 	});
 	chrome.storage.sync.set({
 		'forumBlockerSettings' : settings
@@ -31,7 +31,7 @@ $(function() {
 			currentID = $(value).attr("id");
 			try {
 				newValues = settings.forumBlockerSettings.trollList[currentID];
-				$(value).val(newValues);
+				$(value).val(newValues.join("\n"));
 			} catch(e) {
 				console.log("Trapped error " + e);
 			};
