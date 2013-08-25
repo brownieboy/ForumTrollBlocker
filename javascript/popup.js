@@ -7,14 +7,12 @@ mySettings.globals = mySettings.globals || {};
 
 mySettings.functions.saveSettings = function() {
 	var settings = {};
-	settings.trollLists = [];
-	var trollList, trollListSource;
+	settings.trollList = {};
+	var trollListSource;
 	var $trollLists = $("textarea.trollList");
 	$.each($trollLists, function(index, value) {
 		trollListSource = $(value).val().split(/\n/);
-		trollList = {};
-		trollList[$(value).attr("id")] = trollListSource;
-		settings.trollLists.push(trollList);
+		settings.trollList[$(value).attr("id")] = trollListSource;
 	});
 	chrome.storage.sync.set({
 		'forumBlockerSettings' : settings
@@ -31,8 +29,12 @@ $(function() {
 		var currentID, newValues;
 		$.each($trollLists, function(index, value) {
 			currentID = $(value).attr("id");
-			newValues = settings.forumBlockerSettings.trollLists[currentID];
-			$(value).val(newValues);
+			try {
+				newValues = settings.forumBlockerSettings.trollList[currentID];
+				$(value).val(newValues);
+			} catch(e) {
+				console.log("Trapped error " + e);
+			};
 		});
 	});
 
