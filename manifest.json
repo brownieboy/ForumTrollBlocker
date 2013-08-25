@@ -1,5 +1,5 @@
 {
-	"name": "Forum Troll blocker",
+	"name": "Forum Troll Blocker",
 	"version": "0.1",
 	"manifest_version": 2,
 	"description": "Blocks user-defined trolls from forums such as ZdNet.",
@@ -10,10 +10,10 @@
 			  "javascript/libs/waitForKeyElements.js", "javascript/app.js"]
 		}
 	],
-	"permissions": ["http://*.zdnet.com/", "https://*.zdnet.com/"],
+	"permissions": ["storage", "http://*.zdnet.com/", "https://*.zdnet.com/"],
 	"browser_action": {
-		"default_title": "",
-		"default_icon": "icon.png",
+		"default_title": "Forum Troll Blocker",
+		"default_icon": "troll_male.png",
 		"default_popup": "popup.html"
 	}
 }
