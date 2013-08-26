@@ -75,17 +75,26 @@ myFilter.functions.processTrolls = function($authors) {
 $(function() {
 	console.log("Forum troll blocker started");
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
+		console.log("processing array");
 		var currentID, newValues;
-		var processedArray;
-		myFilter.globals.filterList = settings.forumBlockerSettings.trollList["zdnetTrollList"];
+		var processedArray = [];
+		$.each(settings.forumBlockerSettings.trollList["zdnetTrollList"], function(index, value) {
+			if(value.indexOf(",") > -1) {
+				processedArray.push(value.split(","));
+			}
+			else {
+				processedArray.push(value);
+			}
+		});
+				myFilter.globals.filterList = processedArray;
 		console.log("Just retrieved filter list is " + JSON.stringify(myFilter.globals.filterList));
 		myFilter.functions.processTrolls($("#comments .author"));
-
-	});
-		// waitForKeyElements runs on Ajax loaded data, so it gets triggered
+				// waitForKeyElements runs on Ajax loaded data, so it gets triggered
 // by the Previous and Next buttons, instead of just when the DOM is
 // first loaded.
 // We want to monitor all divs with the "author" class that are inside
 // the id="comments" block.
 waitForKeyElements("#comments .author", myFilter.functions.processTrolls);
+
+	});
 });
