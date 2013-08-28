@@ -6,6 +6,7 @@
 var myFilter = myFilter || {};
 myFilter.functions = myFilter.functions || {};
 myFilter.globals = myFilter.globals || {};
+myFilter.globals.trollImg = chrome.extension.getURL("images/troll_male19x19.png");
 
 // The main filter list.  An array of Author names to check off as Trolls.
 // Note that trolls like Owlnet help themselves to anew user name each time
@@ -25,9 +26,9 @@ myFilter.functions.isTroll = function(authorOriginal) {
 	// Outer loop - the array of troll names to check against
 	myFilter.globals.filterList.some(function(memberArray) {
 		isMember = true;
-	//	console.log("memberArray = " + memberArray);
+		//	console.log("memberArray = " + memberArray);
 		memberArray.forEach(function(member) {
-		//	console.log("Processing member " + member);
+			//	console.log("Processing member " + member);
 			// Inner loop - the individual parts of the troll's name is an array too,
 			// although that array may have only one member.  We return true if
 			// *every part* of the troll's name is containe within the author's name.
@@ -51,7 +52,7 @@ myFilter.functions.processTrolls = function($authors) {
 	var author;
 	$authors.each(function(index, $author) {
 		author = $($author).html();
-	//	console.log("Processing author " + author);
+		//	console.log("Processing author " + author);
 
 		if (myFilter.functions.isTroll(author.toLowerCase())) {
 			// If author is a troll, then we block the parent div that has the
@@ -59,17 +60,23 @@ myFilter.functions.processTrolls = function($authors) {
 			// will block any thread on which the blocked author has commented,
 			// but that's handing too much power to those idiots, IMHO.
 			console.log("Blocking designated troll " + author);
-			$($author).parents(".commentWrapper").hide("slow");
+			// $($author).parents(".commentWrapper").hide("slow");
+			// $($author).parents(".commentWrapper").html('<span style="font-size: 80%"><img src="http://i40.tinypic.com/2gvvdhv.png"> <i>Troll ' + author + ' blocked<\/i><\/span>');
+			$($author).parents(".commentWrapper").html('<span style="font-size: 80%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' blocked<\/i><\/span>');
+			// send message to background script
+			chrome.runtime.sendMessage({
+				"trollBlocked" : true
+			});
+
 		}
 	});
 };
 
-
 $(function() {
 	console.log("Forum troll blocker started");
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
-		if(typeof settings.forumBlockerSettings.trollList !== "undefined") {
-		console.log("processing array");
+		if ( typeof settings.forumBlockerSettings.trollList !== "undefined") {
+			console.log("processing array");
 			var currentID, newValues;
 			var processedArray = [];
 			var tempArray = [];
@@ -77,12 +84,11 @@ $(function() {
 			// Get trolls from the Chrome storage.  Process the multi-part names, which are
 			// comma-delimited strings, into an array of arrays.
 			$.each(settings.forumBlockerSettings.trollList["zdnetTrollList"], function(index, value) {
-				if(value.indexOf(",") > -1) {
+				if (value.indexOf(",") > -1) {
 					processedArray.push(value.split(","));
 					hasTrolls = true;
-				}
-				else {
-					if(value !== "") {
+				} else {
+					if (value !== "") {
 						tempArray = [];
 						tempArray.push(value);
 						processedArray.push(tempArray);
@@ -92,7 +98,7 @@ $(function() {
 			});
 			myFilter.globals.filterList = processedArray;
 			console.log("Just retrieved filter list is " + JSON.stringify(myFilter.globals.filterList));
-			if(hasTrolls) {
+			if (hasTrolls) {
 				myFilter.functions.processTrolls($("#comments .author"));
 				// waitForKeyElements runs on Ajax loaded data, so it gets triggered
 				// by the Previous and Next buttons, instead of just when the DOM is
@@ -100,8 +106,7 @@ $(function() {
 				// We want to monitor all divs with the "author" class that are inside
 				// the id="comments" block.
 				waitForKeyElements("#comments .author", myFilter.functions.processTrolls);
-			}
-			else {
+			} else {
 				console.log("No troll list defined");
 			}
 		}
