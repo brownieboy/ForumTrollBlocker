@@ -20,7 +20,6 @@ myFilter.functions.isTroll = function(authorOriginal) {
 	var author = authorOriginal.toLowerCase();
 	var isMember;
 	if (!myFilter.globals.filterList) {
-		console.log("isTroll: Retrieved filter list is undefined, exiting function.");
 		return false;
 	}
 	// Outer loop - the array of troll names to check against
@@ -48,12 +47,9 @@ myFilter.functions.isTroll = function(authorOriginal) {
 myFilter.functions.processTrolls = function($authors) {
 	// Loop through all the authors and check them off against our master troll list
 	// via the isTroll() function.
-	// console.log("processing trolls...");
 	var author;
 	$authors.each(function(index, $author) {
 		author = $($author).html();
-		//	console.log("Processing author " + author);
-
 		if (myFilter.functions.isTroll(author.toLowerCase())) {
 			// If author is a troll, then we block the parent div that has the
 			// ".commentWrapper" class.  You can change this ".comment" and it
@@ -67,7 +63,6 @@ myFilter.functions.processTrolls = function($authors) {
 			chrome.runtime.sendMessage({
 				"trollBlocked" : true
 			});
-
 		}
 	});
 };
@@ -75,8 +70,9 @@ myFilter.functions.processTrolls = function($authors) {
 $(function() {
 	console.log("Forum troll blocker started");
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
-		if ( typeof settings.forumBlockerSettings.trollList !== "undefined") {
-			console.log("processing array");
+		var trollsDefined = ( typeof settings.forumBlockerSettings !== "undefined") ? true : false;
+		trollsDefined = trollsDefined ? (( typeof settings.forumBlockerSettings.trollList !== "undefined") ? true : false) : false;
+		if (trollsDefined) {
 			var currentID, newValues;
 			var processedArray = [];
 			var tempArray = [];
@@ -106,9 +102,9 @@ $(function() {
 				// We want to monitor all divs with the "author" class that are inside
 				// the id="comments" block.
 				waitForKeyElements("#comments .author", myFilter.functions.processTrolls);
-			} else {
-				console.log("No troll list defined");
 			}
+		} else {
+			alert("Forum Troll Blocker is running on this site, but you have not defined any trolls.  Please define some trolls or disable the extension.")
 		}
 	});
 });
