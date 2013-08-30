@@ -14,3 +14,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		text : myApp.globals.trollsFiltered.toString()
 	});
 });
+
+$(function() {
+		chrome.browserAction.setBadgeText({
+		text: ""
+	});
+});
