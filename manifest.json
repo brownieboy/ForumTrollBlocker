@@ -1,8 +1,8 @@
 {
-	"name": "Forum Troll Blocker",
+	"name": "Forum Troll Stomp",
 	"version": "0.1",
 	"manifest_version": 2,
-	"description": "Blocks your (un)favourite trolls from the ZDNet forums.",
+	"description": "Stomp on your (un)favourite trolls from the ZDNet forums.  Block them so you never see them again.",
 	"content_scripts": [
 		{
 			"matches": ["http://www.zdnet.com/*"],
@@ -14,9 +14,12 @@
 	},
 	"permissions": ["storage", "http://*.zdnet.com/", "https://*.zdnet.com/"],
 	"browser_action": {
-		"default_title": "Forum Troll Blocker",
-		"default_icon": "images/troll_male19x19.png",
+		"default_title": "Forum Troll Stomper",
+		"default_icon": {
+			"19": "images/foot19.png",
+			"38": "images/foot38.png"
+		},
 		"default_popup": "popup.html"
 	},
-	"web_accessible_resources": ["images/troll_male19x19.png"]
+	"web_accessible_resources": ["images/foot19.png"]
 }

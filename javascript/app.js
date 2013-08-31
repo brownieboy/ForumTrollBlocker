@@ -55,10 +55,10 @@ myFilter.functions.processTrolls = function($authors) {
 			// ".commentWrapper" class.  You can change this ".comment" and it
 			// will block any thread on which the blocked author has commented,
 			// but that's handing too much power to those idiots, IMHO.
-			console.log("Blocking designated troll " + author);
+			console.log("Stomping on designated troll " + author);
 			// $($author).parents(".commentWrapper").hide("slow");
 			// $($author).parents(".commentWrapper").html('<span style="font-size: 80%"><img src="http://i40.tinypic.com/2gvvdhv.png"> <i>Troll ' + author + ' blocked<\/i><\/span>');
-			$($author).parents(".commentWrapper").html('<span style="font-size: 80%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' blocked<\/i><\/span>');
+			$($author).parents(".commentWrapper").html('<span style="font-size: 80%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
 			// send message to background script
 			chrome.runtime.sendMessage({
 				"trollBlocked" : true
@@ -68,7 +68,7 @@ myFilter.functions.processTrolls = function($authors) {
 };
 
 $(function() {
-	console.log("Forum troll blocker started");
+	console.log("Forum troll stomper started");
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
 		var trollsDefined = ( typeof settings.forumBlockerSettings !== "undefined") ? true : false;
 		trollsDefined = trollsDefined ? (( typeof settings.forumBlockerSettings.trollList !== "undefined") ? true : false) : false;
@@ -104,7 +104,7 @@ $(function() {
 				waitForKeyElements("#comments .author", myFilter.functions.processTrolls);
 			}
 		} else {
-			alert("Forum Troll Blocker is running on this site, but you have not defined any trolls.  Please define some trolls or disable the extension.")
+			alert("Forum Troll Stomper is running on this site, but you have not defined any trolls.  Please define some trolls or disable the extension.")
 		}
 	});
 });
