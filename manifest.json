@@ -1,6 +1,6 @@
 {
-	"name": "Forum Troll Stomp",
-	"version": "0.1",
+	"name": "Forum Troll Stomper",
+	"version": "0.2",
 	"manifest_version": 2,
 	"description": "Stomp on your (un)favourite trolls from the ZDNet forums.  Block them so you never see them again.",
 	"content_scripts": [
