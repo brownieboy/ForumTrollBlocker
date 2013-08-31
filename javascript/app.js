@@ -6,7 +6,7 @@
 var myFilter = myFilter || {};
 myFilter.functions = myFilter.functions || {};
 myFilter.globals = myFilter.globals || {};
-myFilter.globals.trollImg = chrome.extension.getURL("images/troll_male19x19.png");
+myFilter.globals.trollImg = chrome.extension.getURL("images/foot19.png");
 
 // The main filter list.  An array of Author names to check off as Trolls.
 // Note that trolls like Owlnet help themselves to anew user name each time
@@ -31,7 +31,7 @@ myFilter.functions.isTroll = function(authorOriginal) {
 			// Inner loop - the individual parts of the troll's name is an array too,
 			// although that array may have only one member.  We return true if
 			// *every part* of the troll's name is containe within the author's name.
-			if (author.indexOf(member.toLowerCase()) === -1) {
+			if (author.indexOf(member.replace(/^\s+|\s+$/g,'').toLowerCase()) === -1) {
 				// If only one part of the troll's name is not in the author's name
 				// then we don't have a match.
 				isMember = false;
@@ -57,8 +57,7 @@ myFilter.functions.processTrolls = function($authors) {
 			// but that's handing too much power to those idiots, IMHO.
 			console.log("Stomping on designated troll " + author);
 			// $($author).parents(".commentWrapper").hide("slow");
-			// $($author).parents(".commentWrapper").html('<span style="font-size: 80%"><img src="http://i40.tinypic.com/2gvvdhv.png"> <i>Troll ' + author + ' blocked<\/i><\/span>');
-			$($author).parents(".commentWrapper").html('<span style="font-size: 80%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+			$($author).parents(".commentWrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
 			// send message to background script
 			chrome.runtime.sendMessage({
 				"trollBlocked" : true
@@ -93,7 +92,7 @@ $(function() {
 				}
 			});
 			myFilter.globals.filterList = processedArray;
-			console.log("Just retrieved filter list is " + JSON.stringify(myFilter.globals.filterList));
+			console.log("Forum Troll Stomper retrieved troll list: " + JSON.stringify(myFilter.globals.filterList));
 			if (hasTrolls) {
 				myFilter.functions.processTrolls($("#comments .author"));
 				// waitForKeyElements runs on Ajax loaded data, so it gets triggered
