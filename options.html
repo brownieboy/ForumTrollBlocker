@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Forum Troll Stomper Settings</title>
+		<style type="text/css">
+			body {
+				background-color: #8fa9c0;
+				font-size: 9pt;
+				font-family: verdana, sans-serif;
+				padding: 10px;
+			}
+			h1 {
+				font-size: 12pt;
+			}
+			textarea.trollList {
+				width: 300px;
+				height: 140px;
+			}
+			.instructions {
+				font-size: 90%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div>
+			<header>
+				<h1>Forum Troll Stomper Settings</h1>
+			</header>
+			<div>
+				Zdnet troll list:
+				<br />
+				<textarea id="zdnetTrollList" class="trollList"></textarea>
+			</div>
+			<button id="butSaveSettings">Save Settings</button><br /><br/>
+			<b>Instructions:</b>
+			<div class="instructions">
+				<p>Enter each new troll on a new line.</p>
+				<p>Enter comma seperated names to block patterns. E.g. entering"owl,net" will block trolls "owlnet", "owlllnet", "owllllllnet23" and so on.</p>
+				<p>The number on the icon shows number of trolls blocked in this session.</p>
+			</div>			
+			<footer>
+				<p>
+					&copy; Copyright  by Michael Brown, 2013
+				</p>
+			</footer>
+		</div>
+		<script type="text/javascript" src="javascript/libs/jquery-2.0.3.min.js"></script>
+		<script type="text/javascript" src="javascript/popup.js"></script>
+	</body>
+</html>

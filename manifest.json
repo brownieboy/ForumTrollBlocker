@@ -12,7 +12,8 @@
 	"background": {
 		"scripts": ["javascript/background.js"]
 	},
-	"permissions": ["storage", "http://*.zdnet.com/", "https://*.zdnet.com/"],
+	"options_page": "options.html",
+	"permissions": ["tabs", "storage", "http://*.zdnet.com/", "https://*.zdnet.com/"],
 	"icons": {
 		"48": "images/foot48.png",
 		"128": "images/foot128.png"
@@ -22,8 +23,7 @@
 		"default_icon": {
 			"19": "images/foot19.png",
 			"38": "images/foot38.png"
-		},
-		"default_popup": "popup.html"
+		}
 	},
 	"web_accessible_resources": ["images/foot19.png"]
 }

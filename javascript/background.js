@@ -15,6 +15,12 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 	});
 });
 
+chrome.browserAction.onClicked.addListener(function(tab) {
+  chrome.tabs.create({'url': chrome.extension.getURL('options.html')}, function(tab) {
+    // Tab opened.
+  });
+});
+
 $(function() {
 		chrome.browserAction.setBadgeText({
 		text: ""
