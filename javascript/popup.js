@@ -24,7 +24,7 @@ mySettings.functions.saveSettings = function() {
 };
 
 $(function() {
-	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
+/*	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
 		var $trollLists = $("textarea.trollList");
 		var currentID, newValues;
 		$.each($trollLists, function(index, value) {
@@ -40,5 +40,8 @@ $(function() {
 
 	$("#butSaveSettings").click(function() {
 		mySettings.functions.saveSettings();
-	});
+	}); */
+	$("#tabs").tabs();
+
+	
 });
