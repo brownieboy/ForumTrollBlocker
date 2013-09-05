@@ -28,48 +28,69 @@
 			<header>
 				<h1>Forum Troll Stomper Settings</h1>
 			</header>
-			
-			   <div id="tabs">
-      <ul>
-        <li><a href="#tabs-1">Sites</a></li>
-        <li><a href="#tabs-2">Troll List</a></li>
-        <li><a href="#tabs-3">Settings</a></li>
-      </ul>
-      <div id="tabs-1">
-        <p>Here's the list of sites</p>
-      </div>
-      <div id="tabs-2">
-        <p>Here's the troll list</p>
-      </div>
-      <div id="tabs-3">
-        <p>Here's the other settings.</p>
-      </div>
-    </div>
-			
-			
+
+			<div id="tabs">
+				<ul>
+					<li>
+						<a href="#tabs-1">Sites</a>
+					</li>
+					<li>
+						<a href="#tabs-2">Troll List</a>
+					</li>
+					<li>
+						<a href="#tabs-3">Settings</a>
+					</li>
+				</ul>
+				<div id="tabs-1">
+					<p>
+						Here's the list of sites
+					</p>
+				</div>
+				<div id="tabs-2">
+					<p>
+						Here's the troll list
+					</p>
+				</div>
+				<div id="tabs-3">
+					<p>
+						Here's the other settings.
+					</p>
+				</div>
+			</div>
+
 			<div>
 				Zdnet troll list:
 				<br />
 				<textarea id="zdnetTrollList" class="trollList"></textarea>
 			</div>
-			<button id="butSaveSettings">Save Settings</button><br /><br/>
+			<button id="butSaveSettings">
+				Save Settings
+			</button>
+			<br />
+			<br/>
 			<b>Instructions:</b>
 			<div class="instructions">
-				<p>Enter each new troll on a new line.</p>
-				<p>Enter comma seperated names to block patterns. E.g. entering"owl,net" will block trolls "owlnet", "owlllnet", "owllllllnet23" and so on.</p>
-				<p>The number on the icon shows number of trolls blocked in this session.</p>
-			</div>			
+				<p>
+					Enter each new troll on a new line.
+				</p>
+				<p>
+					Enter comma seperated names to block patterns. E.g. entering"owl,net" will block trolls "owlnet", "owlllnet", "owllllllnet23" and so on.
+				</p>
+				<p>
+					The number on the icon shows number of trolls blocked in this session.
+				</p>
+			</div>
 			<footer>
 				<p>
 					&copy; Copyright  by Michael Brown, 2013
 				</p>
 			</footer>
 		</div>
-	<!--	<script type="text/javascript" src="javascript/libs/jquery-2.0.3.min.js"></script> -->
-		    <script src="http://code.jquery.com/jquery-1.9.1.js" type="text/javascript"></script>
+		<!-- <script src="http://code.jquery.com/jquery-1.9.1.js" type="text/javascript"></script> -->
 
-		<script src="javascript/libs/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
-
+		<script type="text/javascript" src="javascript/libs/jquery-1.10.2.min.js"></script>
+		<script src="javascript/libs/jquery-ui.min.js" type="text/javascript"></script>
+		<!-- <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script> -->
 		<script type="text/javascript" src="javascript/popup.js"></script>
 	</body>
 </html>
