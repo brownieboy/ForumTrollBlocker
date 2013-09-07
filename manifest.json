@@ -3,10 +3,11 @@
 	"version": "0.22",
 	"manifest_version": 2,
 	"description": "Stomp on your (un)favourite trolls from the ZDNet forums.  Block them so you never see them again.",
+	"web_accessible_resources": ["javascript/libs/jquery-1.10.2.min.map", "images/foot19.png"],
 	"content_scripts": [
 		{
 			"matches": ["http://www.zdnet.com/*"],
-			"js": ["javascript/libs/jquery-2.0.3.min.js", "javascript/libs/waitForKeyElements.js", "javascript/app.js"]
+			"js": ["javascript/libs/jquery-1.10.2.min.js", "javascript/libs/waitForKeyElements.js", "javascript/app.js"]
 		}
 	],
 	"background": {
@@ -24,6 +25,5 @@
 			"19": "images/foot19.png",
 			"38": "images/foot38.png"
 		}
-	},
-	"web_accessible_resources": ["images/foot19.png"]
+	}
 }

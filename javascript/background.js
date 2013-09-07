@@ -21,8 +21,9 @@ chrome.browserAction.onClicked.addListener(function(tab) {
   });
 });
 
-$(function() {
-		chrome.browserAction.setBadgeText({
-		text: ""
-	});
+/*
+console.log("Setting badge to empty");
+chrome.browserAction.setBadgeText({
+	text: ""
 });
+*/
