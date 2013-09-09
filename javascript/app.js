@@ -109,6 +109,7 @@ $(function() {
 			}
 		} else {
 		//	alert("Forum Troll Stomper is running on this site, but you have not defined any trolls.  Please define some trolls or disable the extension.")
+			console.log("launching jqueryui.dialog()");
 			$("#divNoTrollsMessage").dialog();
 		}
 	});
