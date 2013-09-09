@@ -68,6 +68,8 @@ myFilter.functions.processTrolls = function($authors) {
 
 $(function() {
 	console.log("Forum troll stomper started");
+    $("body").append('<div id="divNoTrollsMessage" title="No Trolls Defined"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  Please define some trolls or disable the extension.Forum Troll Stomper is running on this site, but you have not defined any trolls.  Please define some trolls or disable the extension.<\/p><\/div>');
+  
   	chrome.runtime.sendMessage({
 		"operation" : "appLoaded"
 	});
@@ -106,7 +108,8 @@ $(function() {
 				waitForKeyElements("#comments .author", myFilter.functions.processTrolls);
 			}
 		} else {
-			alert("Forum Troll Stomper is running on this site, but you have not defined any trolls.  Please define some trolls or disable the extension.")
+		//	alert("Forum Troll Stomper is running on this site, but you have not defined any trolls.  Please define some trolls or disable the extension.")
+			$("#divNoTrollsMessage").dialog();
 		}
 	});
 });
