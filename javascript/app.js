@@ -60,7 +60,7 @@ myFilter.functions.processTrolls = function($authors) {
 			$($author).parents(".commentWrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
 			// send message to background script
 			chrome.runtime.sendMessage({
-				"trollBlocked" : true
+				"operation" : "trollBlocked"
 			});
 		}
 	});
@@ -68,6 +68,9 @@ myFilter.functions.processTrolls = function($authors) {
 
 $(function() {
 	console.log("Forum troll stomper started");
+  	chrome.runtime.sendMessage({
+		"operation" : "appLoaded"
+	});
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
 		var trollsDefined = ( typeof settings.forumBlockerSettings !== "undefined") ? true : false;
 		trollsDefined = trollsDefined ? (( typeof settings.forumBlockerSettings.trollList !== "undefined") ? true : false) : false;
@@ -97,7 +100,7 @@ $(function() {
 				myFilter.functions.processTrolls($("#comments .author"));
 				// waitForKeyElements runs on Ajax loaded data, so it gets triggered
 				// by the Previous and Next buttons, instead of just when the DOM is
-				// first loaded.
+				// first loaded.runtim
 				// We want to monitor all divs with the "author" class that are inside
 				// the id="comments" block.
 				waitForKeyElements("#comments .author", myFilter.functions.processTrolls);
