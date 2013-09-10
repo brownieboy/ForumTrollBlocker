@@ -3,7 +3,9 @@
 	"version": "0.22",
 	"manifest_version": 2,
 	"description": "Stomp on your (un)favourite trolls from the ZDNet forums.  Block them so you never see them again.",
-	"web_accessible_resources": ["javascript/libs/jquery-1.10.2.min.map", "images/foot19.png"],
+	"web_accessible_resources": ["javascript/libs/jquery-1.10.2.min.map", "images/foot19.png",  "images/foot38.png", "css/images/ui-bg_highlight-hard_100_f2f5f7_1x100.png", 
+	"css/images/ui-icons_72a7cf_256x240.png", "css/images/ui-bg_highlight-soft_100_deedf7_1x100.png", "css/images/ui-bg_glass_80_d7ebf9_1x400.png", "css/images/ui-icons_3d80b3_256x240.png",
+	"css/images/ui-bg_glass_100_e4f1fb_1x400.png", "css/images/ui-icons_2694e8_256x240.png"],
 	"content_scripts": [
 		{
 			"matches": ["http://www.zdnet.com/*"],

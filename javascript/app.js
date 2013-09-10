@@ -7,6 +7,7 @@ var myFilter = myFilter || {};
 myFilter.functions = myFilter.functions || {};
 myFilter.globals = myFilter.globals || {};
 myFilter.globals.trollImg = chrome.extension.getURL("images/foot19.png");
+myFilter.globals.trollImgLarge = chrome.extension.getURL("images/foot38.png");
 
 // The main filter list.  An array of Author names to check off as Trolls.
 // Note that trolls like Owlnet help themselves to anew user name each time
@@ -31,7 +32,7 @@ myFilter.functions.isTroll = function(authorOriginal) {
 			// Inner loop - the individual parts of the troll's name is an array too,
 			// although that array may have only one member.  We return true if
 			// *every part* of the troll's name is containe within the author's name.
-			if (author.indexOf(member.replace(/^\s+|\s+$/g,'').toLowerCase()) === -1) {
+			if (author.indexOf(member.replace(/^\s+|\s+$/g, '').toLowerCase()) === -1) {
 				// If only one part of the troll's name is not in the author's name
 				// then we don't have a match.
 				isMember = false;
@@ -68,9 +69,9 @@ myFilter.functions.processTrolls = function($authors) {
 
 $(function() {
 	console.log("Forum troll stomper started");
-    $("body").append('<div id="divNoTrollsMessage" title="No Trolls Defined"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  Please define some trolls or disable the extension.Forum Troll Stomper is running on this site, but you have not defined any trolls.  Please define some trolls or disable the extension.<\/p><\/div>');
-  
-  	chrome.runtime.sendMessage({
+	$("body").append('<div id="divNoTrollsMessage" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
+
+	chrome.runtime.sendMessage({
 		"operation" : "appLoaded"
 	});
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
@@ -108,9 +109,16 @@ $(function() {
 				waitForKeyElements("#comments .author", myFilter.functions.processTrolls);
 			}
 		} else {
-		//	alert("Forum Troll Stomper is running on this site, but you have not defined any trolls.  Please define some trolls or disable the extension.")
+			//	alert("Forum Troll Stomper is running on this site, but you have not defined any trolls.  You're just wasting CPU cycles!  Please define some trolls or disable the extension.")
 			console.log("launching jqueryui.dialog()");
-			$("#divNoTrollsMessage").dialog();
+			$("#divNoTrollsMessage").dialog({
+				buttons : [{
+					text : "OK",
+					click : function() {
+						$(this).dialog("close");
+					}
+				}]
+			});
 		}
 	});
 });
