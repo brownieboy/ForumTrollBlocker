@@ -41,7 +41,9 @@ $(function() {
 	$("#butSaveSettings").click(function() {
 		mySettings.functions.saveSettings();
 	});
-	$("#tabs").tabs();
+	$("#mainTabs").tabs();
+  	$("#listsTabs").tabs();
+
 
 	
 });

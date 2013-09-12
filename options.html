@@ -29,37 +29,45 @@
 				<h1>Forum Troll Stomper Settings</h1>
 			</header>
 
-			<div id="tabs">
+			<div id="mainTabs">
 				<ul>
 					<li>
-						<a href="#tabs-1">Sites</a>
+						<a href="#sitesTab">Sites</a>
 					</li>
 					<li>
-						<a href="#tabs-2">Troll List</a>
+						<a href="#trollsListsTab">Troll List</a>
 					</li>
 					<li>
-						<a href="#tabs-3">Settings</a>
+						<a href="#otherSettingsTab">Settings</a>
 					</li>
 				</ul>
-				<div id="tabs-1">
+				<div id="sitesTab">
 					<input type="checkbox" name="sites" value="zdnet">ZDNet<br />
 					<input type="checkbox" name="sites" value="pcpro">PC Pro UK
 				</div>
-				<div id="tabs-2">
-					Zdnet troll list:
-					<br />
-					<textarea id="zdnetTrollList" class="trollList"></textarea>
-				</div>
-				<div id="tabs-3">
+				<div id="trollListsTab">  
+                    <div id="listsTabs">
+                        <ul>
+                            <li><a href="#tabs-1">ZDNet</a></li>
+                            <li><a href="#tabs-2">PC Pro UK</a></li>
+                        </ul>
+                        <div id="tabs-1">
+                            <h2>Content heading 1</h2>
+                            <p><textarea id="zdnetTrollList" class="trollList"></textarea></p>
+                        </div>
+                        <div id="tabs-2">
+                            <h2>Content heading 2</h2>
+                            <p>Rhubarb, rhubarb</p>
+                        </div>
+                    </div>
+                </div>
+				<div id="otherSettingsTab">
 					<p>
 						Here's the other settings.
 					</p>
 				</div>
 			</div>
 
-			<div>
-
-			</div>
 			<button id="butSaveSettings">
 				Save Settings
 			</button>
