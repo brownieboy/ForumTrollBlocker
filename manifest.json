@@ -8,16 +8,17 @@
 	"css/images/ui-bg_glass_100_e4f1fb_1x400.png", "css/images/ui-icons_2694e8_256x240.png"],
 	"content_scripts": [
 		{
-			"matches": ["http://www.zdnet.com/*"],
+			"matches": ["http://www.zdnet.com/*", "http://www.pcpro.co.uk/*"],
 			"css": ["css/jquery-ui-1.10.3.cupertino.css"],
-			"js": ["javascript/libs/jquery-1.10.2.min.js", "javascript/libs/jquery-ui.1.10.3.min.js", "javascript/libs/waitForKeyElements.js", "javascript/app.js"]
+			"js": ["javascript/libs/jquery-1.10.2.min.js", "javascript/libs/jquery-ui.1.10.3.min.js",
+             "javascript/libs/parseurl.js", "javascript/libs/waitForKeyElements.js", "javascript/app.js"]
 		}
 	],
 	"background": {
 		"scripts": ["javascript/background.js"]
 	},
 	"options_page": "options.html",
-	"permissions": ["tabs", "storage", "http://*.zdnet.com/", "https://*.zdnet.com/"],
+	"permissions": ["tabs", "storage", "http://*.zdnet.com/", "https://*.zdnet.com/", "http://*.pcpro.co.uk/"],
 	"icons": {
 		"48": "images/foot48.png",
 		"128": "images/foot128.png"

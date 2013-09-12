@@ -70,13 +70,16 @@ myFilter.functions.processTrolls = function($authors) {
 $(function() {
 	console.log("Forum troll stomper started");
 	$("body").append('<div id="divNoTrollsMessage" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
-
+    var url = parseURL(window.location.hostname);	// Defined in parseURL.js library
+    var domain = url.host.toLowerCase();
+  
 	chrome.runtime.sendMessage({
 		"operation" : "appLoaded"
 	});
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
 		var trollsDefined = ( typeof settings.forumBlockerSettings !== "undefined") ? true : false;
 		trollsDefined = trollsDefined ? (( typeof settings.forumBlockerSettings.trollList !== "undefined") ? true : false) : false;
+		trollsDefined = trollsDefined ? (( typeof settings.forumBlockerSettings.trollList[domain + "TrollList"] !== "undefined") ? true : false) : false;
 		if (trollsDefined) {
 			var currentID, newValues;
 			var processedArray = [];
@@ -84,7 +87,7 @@ $(function() {
 			var hasTrolls = false;
 			// Get trolls from the Chrome storage.  Process the multi-part names, which are
 			// comma-delimited strings, into an array of arrays.
-			$.each(settings.forumBlockerSettings.trollList["zdnetTrollList"], function(index, value) {
+			$.each(settings.forumBlockerSettings.trollList[domain + "TrollList"], function(index, value) {
 				if (value.indexOf(",") > -1) {
 					processedArray.push(value.split(","));
 					hasTrolls = true;
@@ -109,8 +112,6 @@ $(function() {
 				waitForKeyElements("#comments .author", myFilter.functions.processTrolls);
 			}
 		} else {
-			//	alert("Forum Troll Stomper is running on this site, but you have not defined any trolls.  You're just wasting CPU cycles!  Please define some trolls or disable the extension.")
-			console.log("launching jqueryui.dialog()");
 			$("#divNoTrollsMessage").dialog({
 				buttons : [{
 					text : "OK",
