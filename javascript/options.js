@@ -42,7 +42,8 @@ $(function() {
 		mySettings.functions.saveSettings();
 	});
 	$("#mainTabs").tabs();
-  	$("#listsTabs").tabs();
+    $("#listsTabs").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
+    $("#listsTabs li").removeClass("ui-corner-top").addClass("ui-corner-left");
 
 
 	

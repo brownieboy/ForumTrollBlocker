@@ -19,6 +19,38 @@
 			.instructions {
 				font-size: 90%;
 			}
+                        .ui-tabs-vertical {
+                                width: 55em;
+                        }
+                        .ui-tabs-vertical .ui-tabs-nav {
+                                padding: .2em .1em .2em .2em;
+                                float: left;
+                                width: 12em;
+                        }
+                        .ui-tabs-vertical .ui-tabs-nav li {
+                                clear: left;
+                                width: 100%;
+                                border-bottom-width: 1px !important;
+                                border-right-width: 0 !important;
+                                margin: 0 -1px .2em 0;
+                        }
+                        .ui-tabs-vertical .ui-tabs-nav li a {
+                                display: block;
+                        }
+                        .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
+                                padding-bottom: 0;
+                                padding-right: .1em;
+                                border-right-width: 1px;
+                                border-right-width: 1px;
+                        }
+                        .ui-tabs-vertical .ui-tabs-panel {
+                                padding: 1em;
+                                float: right;
+                                width: 38em;
+                        }
+                        #mainTabs .ui-tabs-vertical div {
+                                padding-top:0;
+                        }
 		</style>
 		<link href="css/jquery-ui-1.10.3.cupertino.css" media="screen" rel="stylesheet" type="text/css" />
 	</head>
@@ -35,7 +67,7 @@
 						<a href="#sitesTab">Sites</a>
 					</li>
 					<li>
-						<a href="#trollsListsTab">Troll List</a>
+						<a href="#trollListsTab">Troll Lists</a>
 					</li>
 					<li>
 						<a href="#otherSettingsTab">Settings</a>
@@ -52,28 +84,15 @@
                             <li><a href="#tabs-2">PC Pro UK</a></li>
                         </ul>
                         <div id="tabs-1">
-                            <h2>Content heading 1</h2>
+                            <h3>ZDNet</h3>
                             <p><textarea id="zdnetTrollList" class="trollList"></textarea></p>
                         </div>
                         <div id="tabs-2">
-                            <h2>Content heading 2</h2>
-                            <p>Rhubarb, rhubarb</p>
+                            <h3>PC Pro (UK)</h3>
+                            <p><textarea id="pcproTrollList" class="trollList"></textarea></p>
                         </div>
                     </div>
-                </div>
-				<div id="otherSettingsTab">
-					<p>
-						Here's the other settings.
-					</p>
-				</div>
-			</div>
-
-			<button id="butSaveSettings">
-				Save Settings
-			</button>
-			<br />
-			<br/>
-			<b>Instructions:</b>
+                  		<b>Instructions:</b>
 			<div class="instructions">
 				<p>
 					Enter each new troll on a new line.
@@ -85,6 +104,19 @@
 					The number on the icon shows number of trolls blocked in this session.
 				</p>
 			</div>
+                </div>
+				<div id="otherSettingsTab">
+					<p>
+						Here's the other settings.
+					</p>
+				</div>
+			</div>
+
+			<p><button id="butSaveSettings">
+				Save Settings
+              </button></p>
+			<br />
+
 			<footer>
 				<p>
 					&copy; Copyright  by Michael Brown, 2013
