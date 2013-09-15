@@ -72,6 +72,15 @@ $(function() {
 	$("body").append('<div id="divNoTrollsMessage" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
     var url = parseURL(window.location.hostname);	// Defined in parseURL.js library
     var domain = url.host.toLowerCase();
+    var authorsSelect;
+    switch(domain) {
+		case "zdnet":
+			authorsSelect = "#comments .author";
+			break;
+		case "pcpro":
+			authorsSelect = ".commentList span.bold";
+			break;
+		}
   
 	chrome.runtime.sendMessage({
 		"operation" : "appLoaded"
@@ -103,13 +112,13 @@ $(function() {
 			myFilter.globals.filterList = processedArray;
 			console.log("Forum Troll Stomper retrieved troll list: " + JSON.stringify(myFilter.globals.filterList));
 			if (hasTrolls) {
-				myFilter.functions.processTrolls($("#comments .author"));
+				myFilter.functions.processTrolls($(authorsSelect));
 				// waitForKeyElements runs on Ajax loaded data, so it gets triggered
 				// by the Previous and Next buttons, instead of just when the DOM is
 				// first loaded.runtim
 				// We want to monitor all divs with the "author" class that are inside
 				// the id="comments" block.
-				waitForKeyElements("#comments .author", myFilter.functions.processTrolls);
+				waitForKeyElements(authorsSelect, myFilter.functions.processTrolls);
 			}
 		} else {
 			$("#divNoTrollsMessage").dialog({
