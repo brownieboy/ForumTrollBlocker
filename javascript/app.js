@@ -1,6 +1,7 @@
 /**
  * @author mikey
  *  Main application file.
+ *  2013
  */
 
 var myFilter = myFilter || {};
