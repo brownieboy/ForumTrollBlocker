@@ -46,7 +46,7 @@ myFilter.functions.isTroll = function(authorOriginal) {
 	return isMember;
 };
 
-myFilter.functions.processTrolls = function($authors) {
+myFilter.functions.processTrolls = function($authors, hideTrollFunc) {
 	// Loop through all the authors and check them off against our master troll list
 	// via the isTroll() function.
 	var author;
@@ -59,8 +59,9 @@ myFilter.functions.processTrolls = function($authors) {
 			// but that's handing too much power to those idiots, IMHO.
 			console.log("Stomping on designated troll " + author);
 			// $($author).parents(".commentWrapper").hide("slow");
-			$($author).parents(".commentWrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+//			$($author).parents(".commentWrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
 			// send message to background script
+			myFilter.functions.hideTrollFunc($author);
 			chrome.runtime.sendMessage({
 				"operation" : "trollBlocked"
 			});
@@ -73,10 +74,13 @@ $(function() {
 	$("body").append('<div id="divNoTrollsMessage" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
     var url = parseURL(window.location.hostname);	// Defined in parseURL.js library
     var domain = url.host.toLowerCase();
-    var authorsSelect;
+    var authorsSelect;   // CSS selector text
     switch(domain) {
 		case "zdnet":
 			authorsSelect = "#comments .author";
+        	myFilter.functions.hideTrollFunc = function($author) {
+              	$($author).parents(".commentWrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+        	}
 			break;
 		case "pcpro":
 			authorsSelect = ".commentList span.bold";
