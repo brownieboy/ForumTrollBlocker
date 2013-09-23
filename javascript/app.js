@@ -61,7 +61,7 @@ myFilter.functions.processTrolls = function($authors, hideTrollFunc) {
 			// $($author).parents(".commentWrapper").hide("slow");
 //			$($author).parents(".commentWrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
 			// send message to background script
-			myFilter.functions.hideTrollFunc($author);
+			myFilter.functions.hideTrollFunc($author, author);
 			chrome.runtime.sendMessage({
 				"operation" : "trollBlocked"
 			});
@@ -78,12 +78,15 @@ $(function() {
     switch(domain) {
 		case "zdnet":
 			authorsSelect = "#comments .author";
-        	myFilter.functions.hideTrollFunc = function($author) {
+        	myFilter.functions.hideTrollFunc = function($author, author) {
               	$($author).parents(".commentWrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
-        	}
+        	};
 			break;
 		case "pcpro":
 			authorsSelect = ".commentList span.bold";
+			myFilter.functions.hideTrollFunc = function($author, author) {
+              console.log("Pc Pro hideTrollFunc coming soon...");
+        	};
 			break;
 		}
   
@@ -126,6 +129,7 @@ $(function() {
 				waitForKeyElements(authorsSelect, myFilter.functions.processTrolls);
 			}
 		} else {
+			console.log("hasTrolls is false, running jquery-ui dialog");
 			$("#divNoTrollsMessage").dialog({
 				buttons : [{
 					text : "OK",
