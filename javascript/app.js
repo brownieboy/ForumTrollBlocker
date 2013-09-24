@@ -71,7 +71,7 @@ myFilter.functions.processTrolls = function($authors, hideTrollFunc) {
 
 $(function() {
 	console.log("Forum troll stomper started");
-	$("body").append('<div id="divNoTrollsMessage" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
+  $("body").append('<div id="divNoTrollsMessage" style="display:none" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
     var url = parseURL(window.location.hostname);	// Defined in parseURL.js library
     var domain = url.host.toLowerCase();
     var authorsSelect;   // CSS selector text
@@ -80,24 +80,36 @@ $(function() {
 			authorsSelect = "#comments .author";
         	myFilter.functions.hideTrollFunc = function($author, author) {
               	$($author).parents(".commentWrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
-        	};
+        	}
 			break;
 		case "pcpro":
-			authorsSelect = ".commentList span.bold";
-			myFilter.functions.hideTrollFunc = function($author, author) {
-              console.log("Pc Pro hideTrollFunc coming soon...");
-        	};
-			break;
+			authorsSelect = "#userComments span.bold";
+            myFilter.functions.hideTrollFunc = function($author, author) {
+              $($author).parents("p").prev("p").prev("h4").hide();
+              $($author).parents("p").prev("p").hide();
+              $($author).parents("p").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+        	}
+			break;a
 		}
   
 	chrome.runtime.sendMessage({
 		"operation" : "appLoaded"
 	});
+  
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
-		var trollsDefined = ( typeof settings.forumBlockerSettings !== "undefined") ? true : false;
-		trollsDefined = trollsDefined ? (( typeof settings.forumBlockerSettings.trollList !== "undefined") ? true : false) : false;
-		trollsDefined = trollsDefined ? (( typeof settings.forumBlockerSettings.trollList[domain + "TrollList"] !== "undefined") ? true : false) : false;
-		if (trollsDefined) {
+	  var trollsDefined = false;
+      
+      if(typeof settings.forumBlockerSettings !== "undefined") {
+        if(typeof settings.forumBlockerSettings.trollList !== "undefined") {
+          if(typeof settings.forumBlockerSettings.trollList[domain + "TrollList"] !== "undefined") {
+            if (settings.forumBlockerSettings.trollList[domain + "TrollList"].length > 0) {
+              trollsDefined = true;
+            }
+          }
+        }
+      }
+  
+      if (trollsDefined) {
 			var currentID, newValues;
 			var processedArray = [];
 			var tempArray = [];
@@ -123,14 +135,14 @@ $(function() {
 				myFilter.functions.processTrolls($(authorsSelect));
 				// waitForKeyElements runs on Ajax loaded data, so it gets triggered
 				// by the Previous and Next buttons, instead of just when the DOM is
-				// first loaded.runtim
+				// first loaded.
 				// We want to monitor all divs with the "author" class that are inside
 				// the id="comments" block.
 				waitForKeyElements(authorsSelect, myFilter.functions.processTrolls);
 			}
 		} else {
-			console.log("hasTrolls is false, running jquery-ui dialog");
 			$("#divNoTrollsMessage").dialog({
+              minWidth: 350,
 				buttons : [{
 					text : "OK",
 					click : function() {

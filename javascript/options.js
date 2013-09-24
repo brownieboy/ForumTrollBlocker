@@ -12,6 +12,9 @@ mySettings.functions.saveSettings = function() {
 	var $trollLists = $("textarea.trollList");
 	$.each($trollLists, function(index, value) {
 		trollListSource = $(value).val().split(/\n/);
+      	trollListSource = trollListSource.filter(function(n){
+          return n;  // Remove falsy values such as empty strings
+        });
 		settings.trollList[$(value).attr("id")] = trollListSource;
 	});
 	chrome.storage.sync.set({
