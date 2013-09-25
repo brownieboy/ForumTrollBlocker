@@ -51,7 +51,8 @@ myFilter.functions.processTrolls = function($authors, hideTrollFunc) {
 	// via the isTroll() function.
 	var author;
 	$authors.each(function(index, $author) {
-		author = $($author).html();
+		author = $($author).html().trim();
+      	console.log("Checking author " + author);
 		if (myFilter.functions.isTroll(author.toLowerCase())) {
 			// If author is a troll, then we block the parent div that has the
 			// ".commentWrapper" class.  You can change this ".comment" and it
@@ -83,12 +84,17 @@ $(function() {
         	}
 			break;
 		case "pcpro":
-			authorsSelect = "#userComments span.bold";
+	//		authorsSelect = "#userComments span.bold";
+    //        myFilter.functions.hideTrollFunc = function($author, author) {
+    //          $($author).parents("p").prev("p").prev("h4").hide();
+    //          $($author).parents("p").prev("p").hide();
+    //          $($author).parents("p").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+    //    	}
+            authorsSelect = ".commentlist span.bold";
             myFilter.functions.hideTrollFunc = function($author, author) {
-              $($author).parents("p").prev("p").prev("h4").hide();
-              $($author).parents("p").prev("p").hide();
-              $($author).parents("p").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+              $($author).parents("li").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
         	}
+
 			break;a
 		}
   
