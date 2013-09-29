@@ -7,6 +7,11 @@ mySettings.globals = mySettings.globals || {};
 
 mySettings.functions.saveSettings = function() {
 	var settings = {};
+	settings.trollsEnabled = [];
+ 	$('[name=sites]:checked').each(function() {
+       settings.trollsEnabled.push($(this).val());
+     });
+  
 	settings.trollList = {};
 	var trollListSource;
 	var $trollLists = $("textarea.trollList");
@@ -28,8 +33,16 @@ mySettings.functions.saveSettings = function() {
 
 $(function() {
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
+      	console.log("getting options");
 		var $trollLists = $("textarea.trollList");
 		var currentID, newValues;
+		
+		// Set list of enabled sites field
+  	    $.each(settings.forumBlockerSettings.trollsEnabled, function(index,value) {
+			$('input[name=sites][value="' + value + '"]').attr("checked", true);
+     	});
+      
+      // Set lists of trolls fields
 		$.each($trollLists, function(index, value) {
 			currentID = $(value).attr("id");
 			try {

@@ -52,17 +52,14 @@ myFilter.functions.processTrolls = function($authors, hideTrollFunc) {
 	var author;
 	$authors.each(function(index, $author) {
 		author = $($author).html().trim();
-      	console.log("Checking author " + author);
 		if (myFilter.functions.isTroll(author.toLowerCase())) {
 			// If author is a troll, then we block the parent div that has the
 			// ".commentWrapper" class.  You can change this ".comment" and it
 			// will block any thread on which the blocked author has commented,
 			// but that's handing too much power to those idiots, IMHO.
 			console.log("Stomping on designated troll " + author);
-			// $($author).parents(".commentWrapper").hide("slow");
-//			$($author).parents(".commentWrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
 			// send message to background script
-			myFilter.functions.hideTrollFunc($author, author);
+			myFilter.functions.hideTrollFunc($author, author);  // Use call back to do the actual blocking
 			chrome.runtime.sendMessage({
 				"operation" : "trollBlocked"
 			});
@@ -112,6 +109,11 @@ $(function() {
   
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
 	  var trollsDefined = false;
+	  
+	  if($.inArray(domain, settings.forumBlockerSettings.trollsEnabled) === -1) {
+		  console.log(domain + " is not enabled for Troll Stomper.  Exiting now...");
+			return;
+		}
       
       if(typeof settings.forumBlockerSettings !== "undefined") {
         if(typeof settings.forumBlockerSettings.trollList !== "undefined") {
