@@ -1,6 +1,6 @@
 {
 	"name": "Forum Troll Stomper",
-	"version": "0.30",
+	"version": "0.31",
 	"manifest_version": 2,
 	"description": "Block your (un)favourite trolls from forums such as ZDNet and PCPro.  Stomp on those suckers so you never see them again!",
 	"web_accessible_resources": ["javascript/libs/jquery-1.10.2.min.map", "images/foot19.png",  "images/foot38.png", "css/images/ui-bg_highlight-hard_100_f2f5f7_1x100.png", 

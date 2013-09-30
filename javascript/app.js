@@ -33,7 +33,7 @@ myFilter.functions.isTroll = function(authorOriginal) {
 			// Inner loop - the individual parts of the troll's name is an array too,
 			// although that array may have only one member.  We return true if
 			// *every part* of the troll's name is containe within the author's name.
-			if (author.indexOf(member.replace(/^\s+|\s+$/g, '').toLowerCase()) === -1) {
+			if (author.indexOf(member.toLowerCase()) === -1) {
 				// If only one part of the troll's name is not in the author's name
 				// then we don't have a match.
 				isMember = false;
@@ -51,7 +51,15 @@ myFilter.functions.processTrolls = function($authors, hideTrollFunc) {
 	// via the isTroll() function.
 	var author;
 	$authors.each(function(index, $author) {
-		author = $($author).html().trim();
+		author = $($author).html();
+		console.log("source author = " + author);
+		if ($(author).is("a")) {
+			// Authors are sometimes an "a" tag, with href pointing to their profile page
+			author = $(author).html();
+		}
+		author = author.trim();
+		console.log("trimmed author = " + author);
+		
 		if (myFilter.functions.isTroll(author.toLowerCase())) {
 			// If author is a troll, then we block the parent div that has the
 			// ".commentWrapper" class.  You can change this ".comment" and it
@@ -59,7 +67,8 @@ myFilter.functions.processTrolls = function($authors, hideTrollFunc) {
 			// but that's handing too much power to those idiots, IMHO.
 			console.log("Stomping on designated troll " + author);
 			// send message to background script
-			myFilter.functions.hideTrollFunc($author, author);  // Use call back to do the actual blocking
+			myFilter.functions.hideTrollFunc($author, author);
+			// Use call back to do the actual blocking
 			chrome.runtime.sendMessage({
 				"operation" : "trollBlocked"
 			});
@@ -69,69 +78,71 @@ myFilter.functions.processTrolls = function($authors, hideTrollFunc) {
 
 $(function() {
 	console.log("Forum troll stomper started");
-    var url = parseURL(window.location.hostname);	// Defined in parseURL.js library
-    var domain = url.host.toLowerCase();
+	var url = parseURL(window.location.hostname);
+	// Defined in parseURL.js library
+	var domain = url.host.toLowerCase();
 	chrome.runtime.sendMessage({
 		"operation" : "appLoaded"
 	});
-  
+
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
-	  var trollsDefined = false;
-       
-	  if($.inArray(domain, settings.forumBlockerSettings.trollsEnabled) === -1) {
-		  console.log(domain + " is not enabled for Troll Stomper.  Exiting now...");
+		var trollsDefined = false;
+		console.log("chrome.storage.sync.get returned");
+
+		if ($.inArray(domain, settings.forumBlockerSettings.trollsEnabled) === -1) {
+			console.log(domain + " is not enabled for Troll Stomper.  Exiting now...");
 			return;
 		}
-      
-      if(typeof settings.forumBlockerSettings !== "undefined") {
-        if(typeof settings.forumBlockerSettings.trollList !== "undefined") {
-          if(typeof settings.forumBlockerSettings.trollList[domain + "TrollList"] !== "undefined") {
-            if (settings.forumBlockerSettings.trollList[domain + "TrollList"].length > 0) {
-              trollsDefined = true;
-            }
-          }
-        }
-      }
-  
-	if (trollsDefined) {
-		var currentID, newValues;
-		var processedArray = [];
-		var tempArray = [];
-      	var hasTrolls = false;
-        
-		$("body").append('<div id="divNoTrollsMessage" style="display:none" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
 
-    	var authorsSelect;   // CSS selector text
-      	
-      	// Setup functions and selectors based on our current domain/site.
-  		switch(domain) {
-			case "zdnet":
-				authorsSelect = "#comments .author";
-        		myFilter.functions.hideTrollFunc = function($author, author) {
-              		$($author).parents(".commentWrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
-        		};  
-				break;
-				case "pcpro":
-        			// PCPro does their comments in two different ways.  They maybe in a userComments id
-        			// (news item comments) or a commentList class (blog post comments) each with its own
-					// HTML layout.  We have to cater for both of those.
-       				if ($("#userComments").length > 0) {	// News item page
- 						authorsSelect = "#userComments span.bold";
-						myFilter.functions.hideTrollFunc = function($author, author) {
-          					$($author).parents("p").prev("p").prev("h4").hide();
-           					$($author).parents("p").prev("p").hide();
-          					$($author).parents("p").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
-        				};
+		if ( typeof settings.forumBlockerSettings !== "undefined") {
+			if ( typeof settings.forumBlockerSettings.trollList !== "undefined") {
+				if ( typeof settings.forumBlockerSettings.trollList[domain + "TrollList"] !== "undefined") {
+					if (settings.forumBlockerSettings.trollList[domain + "TrollList"].length > 0) {
+						trollsDefined = true;
 					}
-        			else {		// Blog post page
-            			authorsSelect = ".commentlist span.bold";
-            			myFilter.functions.hideTrollFunc = function($author, author) {
-         	 				$($author).parents("li").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
-        				};
-           			}
+				}
+			}
+		}
+
+		if (trollsDefined) {
+			var currentID, newValues;
+			var processedArray = [];
+			var tempArray = [];
+			var hasTrolls = false;
+
+			$("body").append('<div id="divNoTrollsMessage" style="display:none" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
+
+			var authorsSelect;
+			// CSS selector text
+
+			// Setup functions and selectors based on our current domain/site.
+			switch(domain) {
+				case "zdnet":
+					authorsSelect = "#comments .author";
+					myFilter.functions.hideTrollFunc = function($author, author) {
+						$($author).parents(".commentWrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+					};
+					break;
+				case "pcpro":
+					// PCPro does their comments in two different ways.  They maybe in a userComments id
+					// (news item comments) or a commentList class (blog post comments) each with its own
+					// HTML layout.  We have to cater for both of those.
+					if ($("#userComments").length > 0) {// News item page
+						authorsSelect = "#userComments span.bold";
+						myFilter.functions.hideTrollFunc = function($author, author) {
+							$($author).parents("p").prev("p").prev("h4").hide();
+							$($author).parents("p").prev("p").hide();
+							$($author).parents("p").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+						};
+					} else {// Blog post page
+						authorsSelect = ".commentlist span.bold";
+						myFilter.functions.hideTrollFunc = function($author, author) {
+							$($author).parents("li").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+						};
+					}
 					break;
 			}
-        
+
 			// Get trolls from the Chrome storage.  Process the multi-part names, which are
 			// comma-delimited strings, into an array of arrays.
 			$.each(settings.forumBlockerSettings.trollList[domain + "TrollList"], function(index, value) {
@@ -160,7 +171,7 @@ $(function() {
 			}
 		} else {
 			$("#divNoTrollsMessage").dialog({
-              minWidth: 350,
+				minWidth : 350,
 				buttons : [{
 					text : "OK",
 					click : function() {
