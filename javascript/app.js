@@ -69,47 +69,15 @@ myFilter.functions.processTrolls = function($authors, hideTrollFunc) {
 
 $(function() {
 	console.log("Forum troll stomper started");
-  $("body").append('<div id="divNoTrollsMessage" style="display:none" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
     var url = parseURL(window.location.hostname);	// Defined in parseURL.js library
     var domain = url.host.toLowerCase();
-    var authorsSelect;   // CSS selector text
-    switch(domain) {
-		case "zdnet":
-			authorsSelect = "#comments .author";
-        	myFilter.functions.hideTrollFunc = function($author, author) {
-              	$($author).parents(".commentWrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
-        	}
-			break;
-		case "pcpro":
-        	// PCPro does their comments in two different ways.  They maybe in a userComments id
-        	// (news item comments) or a commentList class (blog post comments) each with its own
-			// HTML layout.  We have to cater for both of those.
-       		if ($("#userComments").length > 0) {	// News item page
-              console.log("PCPro has userComments ID");
- 				authorsSelect = "#userComments span.bold";
-				myFilter.functions.hideTrollFunc = function($author, author) {
-              		$($author).parents("p").prev("p").prev("h4").hide();
-              		$($author).parents("p").prev("p").hide();
-              		$($author).parents("p").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
-        		}
-			}
-        	else {		// Blog post page
-				console.log("PCPro does not have userComments ID");
-            	authorsSelect = ".commentlist span.bold";
-            	myFilter.functions.hideTrollFunc = function($author, author) {
-              		$($author).parents("li").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
-        		}
-            }
-			break;
-		}
-  
 	chrome.runtime.sendMessage({
 		"operation" : "appLoaded"
 	});
   
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
 	  var trollsDefined = false;
-	  
+       
 	  if($.inArray(domain, settings.forumBlockerSettings.trollsEnabled) === -1) {
 		  console.log(domain + " is not enabled for Troll Stomper.  Exiting now...");
 			return;
@@ -125,11 +93,45 @@ $(function() {
         }
       }
   
-      if (trollsDefined) {
-			var currentID, newValues;
-			var processedArray = [];
-			var tempArray = [];
-			var hasTrolls = false;
+	if (trollsDefined) {
+		var currentID, newValues;
+		var processedArray = [];
+		var tempArray = [];
+      	var hasTrolls = false;
+        
+		$("body").append('<div id="divNoTrollsMessage" style="display:none" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
+
+    	var authorsSelect;   // CSS selector text
+      	
+      	// Setup functions and selectors based on our current domain/site.
+  		switch(domain) {
+			case "zdnet":
+				authorsSelect = "#comments .author";
+        		myFilter.functions.hideTrollFunc = function($author, author) {
+              		$($author).parents(".commentWrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+        		};  
+				break;
+				case "pcpro":
+        			// PCPro does their comments in two different ways.  They maybe in a userComments id
+        			// (news item comments) or a commentList class (blog post comments) each with its own
+					// HTML layout.  We have to cater for both of those.
+       				if ($("#userComments").length > 0) {	// News item page
+ 						authorsSelect = "#userComments span.bold";
+						myFilter.functions.hideTrollFunc = function($author, author) {
+          					$($author).parents("p").prev("p").prev("h4").hide();
+           					$($author).parents("p").prev("p").hide();
+          					$($author).parents("p").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+        				};
+					}
+        			else {		// Blog post page
+            			authorsSelect = ".commentlist span.bold";
+            			myFilter.functions.hideTrollFunc = function($author, author) {
+         	 				$($author).parents("li").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+        				};
+           			}
+					break;
+			}
+        
 			// Get trolls from the Chrome storage.  Process the multi-part names, which are
 			// comma-delimited strings, into an array of arrays.
 			$.each(settings.forumBlockerSettings.trollList[domain + "TrollList"], function(index, value) {
