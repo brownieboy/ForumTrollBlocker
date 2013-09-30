@@ -52,14 +52,14 @@ myFilter.functions.processTrolls = function($authors, hideTrollFunc) {
 	var author;
 	$authors.each(function(index, $author) {
 		author = $($author).html();
-		console.log("source author = " + author);
-		if ($(author).is("a")) {
-			// Authors are sometimes an "a" tag, with href pointing to their profile page
-			author = $(author).html();
-		}
 		author = author.trim();
-		console.log("trimmed author = " + author);
-		
+		if (author.indexOf('href') > 0) {
+			// Authors are sometimes an "a" tag, with href pointing to their profile page. In that case
+			// we need to get the html() out of the"a" tag.
+			authorAnchor = $(author).html();
+			author = authorAnchor.trim();
+		}
+
 		if (myFilter.functions.isTroll(author.toLowerCase())) {
 			// If author is a troll, then we block the parent div that has the
 			// ".commentWrapper" class.  You can change this ".comment" and it
