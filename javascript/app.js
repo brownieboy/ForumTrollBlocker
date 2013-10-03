@@ -86,9 +86,9 @@ $(function() {
 	});
 
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
-		var trollsDefined = false;
-		console.log("chrome.storage.sync.get returned");
+      	$("body").append('<div id="divNoTrollsMessage" style="display:none" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
 
+		var trollsDefined = false;
 		if ($.inArray(domain, settings.forumBlockerSettings.trollsEnabled) === -1) {
 			console.log(domain + " is not enabled for Troll Stomper.  Exiting now...");
 			return;
@@ -109,8 +109,6 @@ $(function() {
 			var processedArray = [];
 			var tempArray = [];
 			var hasTrolls = false;
-
-			$("body").append('<div id="divNoTrollsMessage" style="display:none" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
 
 			var authorsSelect;
 			// CSS selector text
@@ -141,7 +139,13 @@ $(function() {
 						};
 					}
 					break;
-			}
+              	case "computerworld":
+					authorsSelect = ".dsq-commenter-name";
+					myFilter.functions.hideTrollFunc = function($author, author) {
+						$($author).parents(".dsq-comment-body").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+					};
+					break;
+            }
 
 			// Get trolls from the Chrome storage.  Process the multi-part names, which are
 			// comma-delimited strings, into an array of arrays.
@@ -170,6 +174,7 @@ $(function() {
 				waitForKeyElements(authorsSelect, myFilter.functions.processTrolls);
 			}
 		} else {
+          	console.log("no trolls defined warning");
 			$("#divNoTrollsMessage").dialog({
 				minWidth : 350,
 				buttons : [{
