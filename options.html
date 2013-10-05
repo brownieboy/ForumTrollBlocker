@@ -14,7 +14,7 @@
 			}
 			textarea.trollList {
 				width: 300px;
-				height: 140px;
+				height: 250px;
 			}
 			.instructions {
 				font-size: 90%;
@@ -71,6 +71,7 @@
 					</li>
 				</ul>
 				<div id="sitesTab">
+                  <input type="checkbox" name="sites" value="cnet">CNet<br />
                   <input type="checkbox" name="sites" value="computerworld">Computer World<br />
                   <input type="checkbox" name="sites" value="pcpro">PC Pro UK<br />
 				  <input type="checkbox" name="sites" value="zdnet">ZDNet
@@ -78,10 +79,15 @@
 				<div id="trollListsTab">  
                     <div id="listsTabs">
                         <ul>
+                            <li><a href="#tabs-cnet">CNet</a></li>
                             <li><a href="#tabs-computerworld">Computer World</a></li>
                             <li><a href="#tabs-pcpro">PC Pro UK</a></li>
                             <li><a href="#tabs-zdnet">ZDNet</a></li>
                         </ul>
+                        <div id="tabs-cnet">
+                            <h3>CNet</h3>
+                            <p><textarea id="cnetTrollList" class="trollList"></textarea></p>
+                        </div>
                         <div id="tabs-computerworld">
                             <h3>Computer World</h3>
                             <p><textarea id="computerworldTrollList" class="trollList"></textarea></p>

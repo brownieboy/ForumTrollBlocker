@@ -89,10 +89,6 @@ $(function() {
       	$("body").append('<div id="divNoTrollsMessage" style="display:none" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
 
 		var trollsDefined = false;
-		if ($.inArray(domain, settings.forumBlockerSettings.trollsEnabled) === -1) {
-			console.log(domain + " is not enabled for Troll Stomper.  Exiting now...");
-			return;
-		}
 
 		if ( typeof settings.forumBlockerSettings !== "undefined") {
 			if ( typeof settings.forumBlockerSettings.trollList !== "undefined") {
@@ -104,6 +100,17 @@ $(function() {
 			}
 		}
 
+      try {
+      	if ($.inArray(domain, settings.forumBlockerSettings.trollsEnabled) === -1) {
+			console.log(domain + " is not enabled for Troll Stomper.  Exiting now...");
+			return;
+		}
+      }
+      catch(e) {
+        console.log("Error loading settings.  Assuming " + domain + " is not enabled for Troll Stomper.  Exiting now...");
+		return;
+      }
+      
 		if (trollsDefined) {
 			var currentID, newValues;
 			var processedArray = [];
@@ -145,6 +152,12 @@ $(function() {
 						$($author).parents(".dsq-comment-body").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
 					};
 					break;
+              	case "cnet":
+					authorsSelect = ".fyre-comment-username";
+					myFilter.functions.hideTrollFunc = function($author, author) {
+						$($author).parents(".fyre-comment-wrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+					};
+					break;
             }
 
 			// Get trolls from the Chrome storage.  Process the multi-part names, which are
@@ -174,7 +187,6 @@ $(function() {
 				waitForKeyElements(authorsSelect, myFilter.functions.processTrolls);
 			}
 		} else {
-          	console.log("no trolls defined warning");
 			$("#divNoTrollsMessage").dialog({
 				minWidth : 350,
 				buttons : [{

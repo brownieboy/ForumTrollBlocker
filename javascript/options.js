@@ -4,6 +4,8 @@
 var mySettings = mySettings || {};
 mySettings.functions = mySettings.functions || {};
 mySettings.globals = mySettings.globals || {};
+mySettings.globals.trollImgLarge = chrome.extension.getURL("images/foot38.png");
+
 
 mySettings.functions.saveSettings = function() {
 	var settings = {};
@@ -26,12 +28,22 @@ mySettings.functions.saveSettings = function() {
 		'forumBlockerSettings' : settings
 	}, function() {
 		// Notify that we saved.
-		alert('Settings saved');
+	//	alert('Settings saved');
+	    $("#divNoTrollsMessage").dialog({
+			minWidth : 220,
+			buttons : [{
+				text : "OK",
+				click : function() {
+					$(this).dialog("close");
+				}
+			}]
+		});
 	});
-
 };
 
 $(function() {
+   $("body").append('<div id="divNoTrollsMessage" style="display:none" title="Settings Saved"><div style="float:left; margin-top:10px"><img src="' + mySettings.globals.trollImgLarge + '"><\/div><div style="float:left; width:120px; margin-left:15px; margin-top:5px"><p>Settings saved.<\/div><\/div>');
+		
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
       	console.log("getting options");
 		var $trollLists = $("textarea.trollList");
