@@ -99,6 +99,17 @@ $(function() {
 				}
 			}
 		}
+      
+      
+      // MB 07/10/2013 - Convert old data format to new.
+      if(trollsDefined) {
+        if(!('currentTrolls' in settings.forumBlockerSettings.trollList[domain + "TrollList"])) {
+          var tempObj = {};
+          tempObj.currentTrolls = settings.forumBlockerSettings.trollList[domain + "TrollList"];
+          settings.forumBlockerSettings.trollList[domain + "TrollList"] = tempObj;          
+        }
+      }
+      
 
       try {
       	if ($.inArray(domain, settings.forumBlockerSettings.trollsEnabled) === -1) {
@@ -162,7 +173,7 @@ $(function() {
 
 			// Get trolls from the Chrome storage.  Process the multi-part names, which are
 			// comma-delimited strings, into an array of arrays.
-			$.each(settings.forumBlockerSettings.trollList[domain + "TrollList"], function(index, value) {
+			$.each(settings.forumBlockerSettings.trollList[domain + "TrollList"].currentTrolls, function(index, value) {
 				if (value.indexOf(",") > -1) {
 					processedArray.push(value.split(","));
 					hasTrolls = true;

@@ -1,0 +1,8 @@
+chrome.storage.sync() returned settings
+=======================================
+forumBlockerSettings {}
+----- trollList {} (associative array)
+-----------site1 [] (list of trolls)
+-----------site2 [] (list of trolls)
+-----------siteX [] (list of trolls)
+------trollsEnabled[] (list of enabled sites)
