@@ -14,7 +14,7 @@ mySettings.functions.saveSettings = function() {
        settings.trollsEnabled.push($(this).val());
      });
   
-	settings.trollList = {};
+	settings.trollList = {};  // Associative array
 	var trollListSource;
 	var $trollLists = $("textarea.trollList");
 	$.each($trollLists, function(index, value) {
@@ -22,7 +22,9 @@ mySettings.functions.saveSettings = function() {
       	trollListSource = trollListSource.filter(function(n){
           return n;  // Remove falsy values such as empty strings
         });
-		settings.trollList[$(value).attr("id")] = trollListSource;
+        var tempObj = {};
+      	tempObj.currentTrolls = trollListSource;
+		settings.trollList[$(value).attr("id")] = tempObj;
 	});
 	chrome.storage.sync.set({
 		'forumBlockerSettings' : settings
@@ -57,8 +59,15 @@ $(function() {
       // Set lists of trolls fields
 		$.each($trollLists, function(index, value) {
 			currentID = $(value).attr("id");
-			try {
-				newValues = settings.forumBlockerSettings.trollList[currentID];
+			try {              
+       			// MB 07/10/2013 - Data might be in previous format, where trollList was a simple array.
+        		if(('currentTrolls' in settings.forumBlockerSettings.trollList[currentID])) {
+                  	newValues = settings.forumBlockerSettings.trollList[currentID].currentTrolls;                  
+        		}
+              	else {
+					newValues = settings.forumBlockerSettings.trollList[currentID];                  
+              	}
+              
 				$(value).val(newValues.join("\n"));
 			} catch(e) {
 				console.log("Trapped error " + e);

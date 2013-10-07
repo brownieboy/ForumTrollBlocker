@@ -96,6 +96,11 @@ $(function() {
 					if (settings.forumBlockerSettings.trollList[domain + "TrollList"].length > 0) {
 						trollsDefined = true;
 					}
+                  	else {  // Data in new format.
+                    	if('currentTrolls' in settings.forumBlockerSettings.trollList[domain + "TrollList"]) {
+      						trollsDefined = true;
+        				}
+                  	}
 				}
 			}
 		}
