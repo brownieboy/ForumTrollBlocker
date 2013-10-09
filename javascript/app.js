@@ -85,27 +85,6 @@ $(function() {
 		"operation" : "appLoaded"
 	});
 
-	// $(".aTrollPeek").on("click", function(e) {
-	// console.log(".aTrollPeek clicked");
-	// e.PreventDefault
-	// if ($(this).html() === "Troll Peek") {
-	// $(this).html("Yep, he's still a troll");
-	// } else {
-	// $(this).html("Troll Peek");
-	// }
-	// });
-
-	$(document).on('click', "a.aTrollPeek", function(e) {
-		console.log(".aTrollPeek clicked");
-		e.PreventDefault
-		if ($(this).html() === "Troll Peek") {
-			$(this).html("Yep, he's still a troll");
-		} else {
-			$(this).html("Troll Peek");
-		}
-
-	});
-
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
 		$("body").append('<div id="divNoTrollsMessage" style="display:none" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
 
@@ -149,6 +128,17 @@ $(function() {
 			var processedArray = [];
 			var tempArray = [];
 			var hasTrolls = false;
+
+			$(document).on('click', "a.aTrollPeek", function(e) {
+				console.log(".aTrollPeek clicked");
+				// e.PreventDefault();
+				if ($(this).html() === "Troll Peek") {
+					$(this).html("Yep, he's still a troll");
+				} else {
+					$(this).html("Troll Peek");
+				}
+				return false;
+			});
 
 			var authorsSelect;
 			// CSS selector text
