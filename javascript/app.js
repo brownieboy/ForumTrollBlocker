@@ -85,8 +85,29 @@ $(function() {
 		"operation" : "appLoaded"
 	});
 
+	// $(".aTrollPeek").on("click", function(e) {
+	// console.log(".aTrollPeek clicked");
+	// e.PreventDefault
+	// if ($(this).html() === "Troll Peek") {
+	// $(this).html("Yep, he's still a troll");
+	// } else {
+	// $(this).html("Troll Peek");
+	// }
+	// });
+
+	$(document).on('click', "a.aTrollPeek", function(e) {
+		console.log(".aTrollPeek clicked");
+		e.PreventDefault
+		if ($(this).html() === "Troll Peek") {
+			$(this).html("Yep, he's still a troll");
+		} else {
+			$(this).html("Troll Peek");
+		}
+
+	});
+
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
-      	$("body").append('<div id="divNoTrollsMessage" style="display:none" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
+		$("body").append('<div id="divNoTrollsMessage" style="display:none" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
 
 		var trollsDefined = false;
 
@@ -95,38 +116,34 @@ $(function() {
 				if ( typeof settings.forumBlockerSettings.trollList[domain + "TrollList"] !== "undefined") {
 					if (settings.forumBlockerSettings.trollList[domain + "TrollList"].length > 0) {
 						trollsDefined = true;
+					} else {// Data in new format.
+						if ('currentTrolls' in settings.forumBlockerSettings.trollList[domain + "TrollList"]) {
+							trollsDefined = true;
+						}
 					}
-                  	else {  // Data in new format.
-                    	if('currentTrolls' in settings.forumBlockerSettings.trollList[domain + "TrollList"]) {
-      						trollsDefined = true;
-        				}
-                  	}
 				}
 			}
 		}
-      
-      
-      // MB 07/10/2013 - Convert old data format to new.
-      if(trollsDefined) {
-        if(!('currentTrolls' in settings.forumBlockerSettings.trollList[domain + "TrollList"])) {
-          var tempObj = {};
-          tempObj.currentTrolls = settings.forumBlockerSettings.trollList[domain + "TrollList"];
-          settings.forumBlockerSettings.trollList[domain + "TrollList"] = tempObj;          
-        }
-      }
-      
 
-      try {
-      	if ($.inArray(domain, settings.forumBlockerSettings.trollsEnabled) === -1) {
-			console.log(domain + " is not enabled for Troll Stomper.  Exiting now...");
+		// MB 07/10/2013 - Convert old data format to new.
+		if (trollsDefined) {
+			if (!('currentTrolls' in settings.forumBlockerSettings.trollList[domain + "TrollList"])) {
+				var tempObj = {};
+				tempObj.currentTrolls = settings.forumBlockerSettings.trollList[domain + "TrollList"];
+				settings.forumBlockerSettings.trollList[domain + "TrollList"] = tempObj;
+			}
+		}
+
+		try {
+			if ($.inArray(domain, settings.forumBlockerSettings.trollsEnabled) === -1) {
+				console.log(domain + " is not enabled for Troll Stomper.  Exiting now...");
+				return;
+			}
+		} catch(e) {
+			console.log("Error loading settings.  Assuming " + domain + " is not enabled for Troll Stomper.  Exiting now...");
 			return;
 		}
-      }
-      catch(e) {
-        console.log("Error loading settings.  Assuming " + domain + " is not enabled for Troll Stomper.  Exiting now...");
-		return;
-      }
-      
+
 		if (trollsDefined) {
 			var currentID, newValues;
 			var processedArray = [];
@@ -141,7 +158,9 @@ $(function() {
 				case "zdnet":
 					authorsSelect = "#comments .author";
 					myFilter.functions.hideTrollFunc = function($author, author) {
-						$($author).parents(".commentWrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+						//	$($author).parents(".commentWrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+						$($author).parents(".commentWrapper").wrap('<div class="trollWrapper"\/>').hide();
+						$($author).parents(".trollWrapper").prepend('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i> <a href="#" class="aTrollPeek">Troll Peek</a><\/span>');
 					};
 					break;
 				case "pcpro":
@@ -162,19 +181,19 @@ $(function() {
 						};
 					}
 					break;
-              	case "computerworld":
+				case "computerworld":
 					authorsSelect = ".dsq-commenter-name";
 					myFilter.functions.hideTrollFunc = function($author, author) {
 						$($author).parents(".dsq-comment-body").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
 					};
 					break;
-              	case "cnet":
+				case "cnet":
 					authorsSelect = ".fyre-comment-username";
 					myFilter.functions.hideTrollFunc = function($author, author) {
 						$($author).parents(".fyre-comment-wrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
 					};
 					break;
-            }
+			}
 
 			// Get trolls from the Chrome storage.  Process the multi-part names, which are
 			// comma-delimited strings, into an array of arrays.
@@ -194,7 +213,7 @@ $(function() {
 			myFilter.globals.filterList = processedArray;
 			console.log("Forum Troll Stomper retrieved troll list: " + JSON.stringify(myFilter.globals.filterList));
 			if (hasTrolls) {
-				myFilter.functions.processTrolls($(authorsSelect));
+				//	myFilter.functions.processTrolls($(authorsSelect));
 				// waitForKeyElements runs on Ajax loaded data, so it gets triggered
 				// by the Previous and Next buttons, instead of just when the DOM is
 				// first loaded.
