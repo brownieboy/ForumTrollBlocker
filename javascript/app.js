@@ -133,9 +133,11 @@ $(function() {
 				console.log(".aTrollPeek clicked");
 				// e.PreventDefault();
 				if ($(this).html() === "Troll Peek") {
-					$(this).html("Yep, he's still a troll");
+					$(this).html("Yep, still a troll");
+                  	myFilter.functions.trollUnpeek(this);
 				} else {
 					$(this).html("Troll Peek");
+                  	myFilter.functions.trollPeek(this);
 				}
 				return false;
 			});
@@ -152,6 +154,12 @@ $(function() {
 						$($author).parents(".commentWrapper").wrap('<div class="trollWrapper"\/>').hide();
 						$($author).parents(".trollWrapper").prepend('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i> <a href="#" class="aTrollPeek">Troll Peek</a><\/span>');
 					};
+                	myFilter.functions.trollPeek = function(wrapperElement) {
+                    	$(wrapperElement).parent().parent().find(".commentWrapper").show();
+                	};
+                    myFilter.functions.trollUnpeek = function(wrapperElement) {
+                    	$(wrapperElement).parent().parent().find(".commentWrapper").hide();
+                	};
 					break;
 				case "pcpro":
 					// PCPro does their comments in two different ways.  They maybe in a userComments id
