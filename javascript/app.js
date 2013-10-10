@@ -132,12 +132,12 @@ $(function() {
 			$(document).on('click', "a.aTrollPeek", function(e) {
 				console.log(".aTrollPeek clicked");
 				// e.PreventDefault();
-				if ($(this).html() === "Troll Peek") {
-					$(this).html("Yep, still a troll");
-                  	myFilter.functions.trollUnpeek(this);
-				} else {
-					$(this).html("Troll Peek");
+				if ($(this).html() === "troll peek") {
+					$(this).html("troll hide");
                   	myFilter.functions.trollPeek(this);
+				} else {
+					$(this).html("troll peek");
+                  	myFilter.functions.trollUnpeek(this);
 				}
 				return false;
 			});
@@ -150,15 +150,14 @@ $(function() {
 				case "zdnet":
 					authorsSelect = "#comments .author";
 					myFilter.functions.hideTrollFunc = function($author, author) {
-						//	$($author).parents(".commentWrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
 						$($author).parents(".commentWrapper").wrap('<div class="trollWrapper"\/>').hide();
-						$($author).parents(".trollWrapper").prepend('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i> <a href="#" class="aTrollPeek">Troll Peek</a><\/span>');
+						$($author).parents(".trollWrapper").prepend('<span class="spanBlocked"><img src="' + myFilter.globals.trollImg + '"> <i>Stomped on troll ' + author + '<\/i>. <a href="#" class="aTrollPeek">troll peek</a><\/span>');
 					};
                 	myFilter.functions.trollPeek = function(wrapperElement) {
-                    	$(wrapperElement).parent().parent().find(".commentWrapper").show();
+                    	$(wrapperElement).parent().parent().find(".commentWrapper").show('fast');
                 	};
                     myFilter.functions.trollUnpeek = function(wrapperElement) {
-                    	$(wrapperElement).parent().parent().find(".commentWrapper").hide();
+                    	$(wrapperElement).parent().parent().find(".commentWrapper").hide('fast');
                 	};
 					break;
 				case "pcpro":

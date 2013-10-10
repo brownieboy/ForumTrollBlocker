@@ -1,6 +1,6 @@
 {
 	"name": "Forum Troll Stomper",
-	"version": "0.32",
+	"version": "0.33",
 	"manifest_version": 2,
 	"description": "Block your (un)favourite trolls from forums such as ZDNet and PCPro.  Stomp on those suckers so you never see them again!",
 	"web_accessible_resources": ["javascript/libs/jquery-1.10.2.min.map", "images/foot19.png",  "images/foot38.png",
@@ -12,7 +12,7 @@
 		{
 			"matches": ["http://www.zdnet.com/*", "http://www.pcpro.co.uk/*", "http://www.computerworld.com/*",
             	"http://blogs.computerworld.com/*", "http://*.cnet.com/*"],
-			"css": ["css/jquery-ui-1.10.3.cupertino.css"],
+			"css": ["css/app.css", "css/jquery-ui-1.10.3.cupertino.css"],
 			"js": ["javascript/libs/jquery-1.10.2.min.js", "javascript/libs/jquery-ui.1.10.3.min.js",
              "javascript/libs/parseurl.js", "javascript/libs/waitForKeyElements.js", "javascript/app.js"]
 		}
