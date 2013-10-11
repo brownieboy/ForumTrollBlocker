@@ -6,16 +6,17 @@
 }
 
 .aTrollPeek {
-	color: blue;
+	color: #005399;
 	text-decoration: none;
+	font-style: italic;
 }
 
 .aTrollPeek:visited {
-	color: blue;
+	color: #005399;
 }
 
 .aTrollPeek:hover {
-	color: blue;
+	color: #005399;
 	text-decoration: underline;
 }
 

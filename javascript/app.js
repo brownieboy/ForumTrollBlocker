@@ -130,14 +130,13 @@ $(function() {
 			var hasTrolls = false;
 
 			$(document).on('click', "a.aTrollPeek", function(e) {
-				console.log(".aTrollPeek clicked");
 				// e.PreventDefault();
 				if ($(this).html() === "troll peek") {
 					$(this).html("troll hide");
-                  	myFilter.functions.trollPeek(this);
+					myFilter.functions.trollPeek(this);
 				} else {
 					$(this).html("troll peek");
-                  	myFilter.functions.trollUnpeek(this);
+					myFilter.functions.trollUnpeek(this);
 				}
 				return false;
 			});
@@ -146,19 +145,32 @@ $(function() {
 			// CSS selector text
 
 			// Setup functions and selectors based on our current domain/site.
+			var getTrollString = function(author) {
+				return '<span class="spanBlocked"><img src="' + myFilter.globals.trollImg + '"> <i>Stomped on troll ' + author + '<\/i>. <a href="#" class="aTrollPeek">troll peek</a><\/span>';
+			};
+			var trollWrap = function($element, author) {
+				$element.wrap('<div class="trollWrapper"\/>').hide();
+				$element.parents(".trollWrapper").prepend(getTrollString(author));
+			};
+			var trollPeek = function($element) {
+				$element.find(".commentWrapper").show('blind');
+			};
+			var trollHide = function($element) {
+				$element.find(".commentWrapper").hide('blind');
+			};
+
 			switch(domain) {
 				case "zdnet":
 					authorsSelect = "#comments .author";
 					myFilter.functions.hideTrollFunc = function($author, author) {
-						$($author).parents(".commentWrapper").wrap('<div class="trollWrapper"\/>').hide();
-						$($author).parents(".trollWrapper").prepend('<span class="spanBlocked"><img src="' + myFilter.globals.trollImg + '"> <i>Stomped on troll ' + author + '<\/i>. <a href="#" class="aTrollPeek">troll peek</a><\/span>');
+						trollWrap($($author).parents(".commentWrapper"), author);
 					};
-                	myFilter.functions.trollPeek = function(wrapperElement) {
-                    	$(wrapperElement).parent().parent().find(".commentWrapper").show('fast');
-                	};
-                    myFilter.functions.trollUnpeek = function(wrapperElement) {
-                    	$(wrapperElement).parent().parent().find(".commentWrapper").hide('fast');
-                	};
+					myFilter.functions.trollPeek = function(wrapperElement) {
+						trollPeek($(wrapperElement).parent().parent());
+					};
+					myFilter.functions.trollUnpeek = function(wrapperElement) {
+						trollHide($(wrapperElement).parent().parent());
+					};
 					break;
 				case "pcpro":
 					// PCPro does their comments in two different ways.  They maybe in a userComments id
@@ -167,10 +179,20 @@ $(function() {
 					if ($("#userComments").length > 0) {// News item page
 						authorsSelect = "#userComments span.bold";
 						myFilter.functions.hideTrollFunc = function($author, author) {
-							$($author).parents("p").prev("p").prev("h4").hide();
-							$($author).parents("p").prev("p").hide();
-							$($author).parents("p").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+							trollWrap($($author).parents("p").prev("p").prev("h4"));
 						};
+						myFilter.functions.trollPeek = function(wrapperElement) {
+							trollPeek($(wrapperElement).parent().parent());
+						};
+						myFilter.functions.trollUnpeek = function(wrapperElement) {
+							trollHide($(wrapperElement).parent().parent());
+						};
+						// myFilter.functions.hideTrollFunc = function($author, author) {
+						// $($author).parents("p").prev("p").prev("h4").hide();
+						// $($author).parents("p").prev("p").hide();
+						// $($author).parents("p").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+						// };
+
 					} else {// Blog post page
 						authorsSelect = ".commentlist span.bold";
 						myFilter.functions.hideTrollFunc = function($author, author) {
