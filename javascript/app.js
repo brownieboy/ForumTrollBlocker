@@ -148,10 +148,10 @@ $(function() {
 			var getTrollString = function(author) {
 				return '<span class="spanBlocked"><img src="' + myFilter.globals.trollImg + '"> <i>Stomped on troll ' + author + '<\/i>. <a href="#" class="aTrollPeek">troll peek</a><\/span>';
 			};
-			var trollWrap = function($element, author) {
-				$element.wrap('<div class="trollWrapper"\/>').hide();
-				$element.parents(".trollWrapper").prepend(getTrollString(author));
-			};
+//			var trollWrap = function($element, author) {
+//				$element.wrap('<div class="trollWrapper"\/>').hide();
+//				$element.parents(".trollWrapper").prepend(getTrollString(author));
+//			};
 			var trollPeek = function($element) {
 				$element.find(".commentWrapper").show('blind');
 			};
@@ -163,7 +163,9 @@ $(function() {
 				case "zdnet":
 					authorsSelect = "#comments .author";
 					myFilter.functions.hideTrollFunc = function($author, author) {
-						trollWrap($($author).parents(".commentWrapper"), author);
+					//	trollWrap($($author).parents(".commentWrapper"), author);
+                      $($author).parents(".commentWrapper").wrap('<div class="trollWrapper"\/>').hide();
+                      $element.parents(".trollWrapper").prepend(getTrollString(author));
 					};
 					myFilter.functions.trollPeek = function(wrapperElement) {
 						trollPeek($(wrapperElement).parent().parent());
@@ -179,7 +181,14 @@ $(function() {
 					if ($("#userComments").length > 0) {// News item page
 						authorsSelect = "#userComments span.bold";
 						myFilter.functions.hideTrollFunc = function($author, author) {
-							trollWrap($($author).parents("p").prev("p").prev("h4"));
+						//	trollWrap($($author).parents("p").prev("p").prev("h4"), author);
+                        	$($author).parents("p").prev("p").prev("h4").before('<div class="trollWrapper"><div class="commentWrapper"><\/div><\/div>');
+                      		$($author).parents("p").prev("p").prev("h4").prev(".trollWrapper").prepend(getTrollString(author));
+                          	var $commentWrapper = $($author).parents("p").prev("p").prev("h4").prev(".trollWrapper").find(".commentWrapper");
+                       		$($author).parents("p").prev("p").prev("h4").appendTo($commentWrapper);
+                            $($author).parents("p").prev("p").appendTo($commentWrapper);
+                     		$($author).parents("p").appendTo($commentWrapper);
+                          	$commentWrapper.hide();
 						};
 						myFilter.functions.trollPeek = function(wrapperElement) {
 							trollPeek($(wrapperElement).parent().parent());
