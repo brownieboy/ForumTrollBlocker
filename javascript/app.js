@@ -148,24 +148,26 @@ $(function() {
 			var getTrollString = function(author) {
 				return '<span class="spanBlocked"><img src="' + myFilter.globals.trollImg + '"> <i>Stomped on troll ' + author + '<\/i>. <a href="#" class="aTrollPeek">troll peek</a><\/span>';
 			};
-//			var trollWrap = function($element, author) {
-//				$element.wrap('<div class="trollWrapper"\/>').hide();
-//				$element.parents(".trollWrapper").prepend(getTrollString(author));
-//			};
-			var trollPeek = function($element) {
-				$element.find(".commentWrapper").show('blind');
+			//			var trollWrap = function($element, author) {
+			//				$element.wrap('<div class="trollWrapper"\/>').hide();
+			//				$element.parents(".trollWrapper").prepend(getTrollString(author));
+			//			};
+			var trollPeek = function($element, wrapperElement) {
+				wrapperElement = wrapperElement || ".commentWrapper";
+				$element.find(wrapperElement).show('blind');
 			};
-			var trollHide = function($element) {
-				$element.find(".commentWrapper").hide('blind');
+			var trollHide = function($element, wrapperElement) {
+				wrapperElement = wrapperElement || ".commentWrapper";
+				$element.find(wrapperElement).hide('blind');
 			};
 
 			switch(domain) {
 				case "zdnet":
 					authorsSelect = "#comments .author";
 					myFilter.functions.hideTrollFunc = function($author, author) {
-					//	trollWrap($($author).parents(".commentWrapper"), author);
-                      $($author).parents(".commentWrapper").wrap('<div class="trollWrapper"\/>').hide();
-                      $element.parents(".trollWrapper").prepend(getTrollString(author));
+						//	trollWrap($($author).parents(".commentWrapper"), author);
+						$($author).parents(".commentWrapper").wrap('<div class="trollWrapper"\/>').hide();
+						$($author).parents(".trollWrapper").prepend(getTrollString(author));
 					};
 					myFilter.functions.trollPeek = function(wrapperElement) {
 						trollPeek($(wrapperElement).parent().parent());
@@ -181,14 +183,14 @@ $(function() {
 					if ($("#userComments").length > 0) {// News item page
 						authorsSelect = "#userComments span.bold";
 						myFilter.functions.hideTrollFunc = function($author, author) {
-						//	trollWrap($($author).parents("p").prev("p").prev("h4"), author);
-                        	$($author).parents("p").prev("p").prev("h4").before('<div class="trollWrapper"><div class="commentWrapper"><\/div><\/div>');
-                      		$($author).parents("p").prev("p").prev("h4").prev(".trollWrapper").prepend(getTrollString(author));
-                          	var $commentWrapper = $($author).parents("p").prev("p").prev("h4").prev(".trollWrapper").find(".commentWrapper");
-                       		$($author).parents("p").prev("p").prev("h4").appendTo($commentWrapper);
-                            $($author).parents("p").prev("p").appendTo($commentWrapper);
-                     		$($author).parents("p").appendTo($commentWrapper);
-                          	$commentWrapper.hide();
+							//	trollWrap($($author).parents("p").prev("p").prev("h4"), author);
+							$($author).parents("p").prev("p").prev("h4").before('<div class="trollWrapper"><div class="commentWrapper"><\/div><\/div>');
+							$($author).parents("p").prev("p").prev("h4").prev(".trollWrapper").prepend(getTrollString(author));
+							var $commentWrapper = $($author).parents("p").prev("p").prev("h4").prev(".trollWrapper").find(".commentWrapper");
+							$($author).parents("p").prev("p").prev("h4").appendTo($commentWrapper);
+							$($author).parents("p").prev("p").appendTo($commentWrapper);
+							$($author).parents("p").appendTo($commentWrapper);
+							$commentWrapper.hide();
 						};
 						myFilter.functions.trollPeek = function(wrapperElement) {
 							trollPeek($(wrapperElement).parent().parent());
@@ -205,7 +207,15 @@ $(function() {
 					} else {// Blog post page
 						authorsSelect = ".commentlist span.bold";
 						myFilter.functions.hideTrollFunc = function($author, author) {
-							$($author).parents("li").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+							//	$($author).parents("li").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+							$($author).parents("li").wrap('<div class="trollWrapper"\/>').hide();
+							$($author).parents("li").parents(".trollWrapper").prepend(getTrollString(author));
+						};
+						myFilter.functions.trollPeek = function(wrapperElement) {
+							trollPeek($(wrapperElement).parents(".trollWrapper"), "> li");
+						};
+						myFilter.functions.trollUnpeek = function(wrapperElement) {
+							trollHide($(wrapperElement).parents(".trollWrapper"), "> li");
 						};
 					}
 					break;
