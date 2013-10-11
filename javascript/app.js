@@ -154,11 +154,14 @@ $(function() {
 			//			};
 			var trollPeek = function($element, wrapperElement) {
 				wrapperElement = wrapperElement || ".commentWrapper";
-				$element.find(wrapperElement).show('blind');
+				console.time("trollPeek get $wrapperElement");
+				var $wrapperElement = $element.find(wrapperElement);
+				console.timeEnd("trollPeek get $wrapperElement"); 
+				$wrapperElement.show('blind', null, 200);
 			};
 			var trollHide = function($element, wrapperElement) {
 				wrapperElement = wrapperElement || ".commentWrapper";
-				$element.find(wrapperElement).hide('blind');
+				$element.find(wrapperElement).hide('blind', null, 200);
 			};
 
 			switch(domain) {
@@ -193,7 +196,10 @@ $(function() {
 							$commentWrapper.hide();
 						};
 						myFilter.functions.trollPeek = function(wrapperElement) {
-							trollPeek($(wrapperElement).parent().parent());
+							console.time("myFilter.functions.trollPeek get $trollWrapperElement");
+							var $trollWrapperElement = $(wrapperElement).parent().parent();
+							console.timeEnd("myFilter.functions.trollPeek get $trollWrapperElement");
+							trollPeek($trollWrapperElement);
 						};
 						myFilter.functions.trollUnpeek = function(wrapperElement) {
 							trollHide($(wrapperElement).parent().parent());
