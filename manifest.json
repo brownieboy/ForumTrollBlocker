@@ -2,7 +2,7 @@
 	"name": "Forum Troll Stomper",
 	"version": "0.35",
 	"manifest_version": 2,
-	"description": "Block your (un)favourite trolls from forums such as ZDNet and PCPro.  Stomp on those suckers so you never see them again!",
+	"description": "Block your (un)favourite trolls from forums such as ZDNet, PCPro and CNet.  Stomp on those suckers so you never see them again!",
 	"web_accessible_resources": ["javascript/libs/jquery-1.10.2.min.map", "images/foot19.png",  "images/foot38.png",
     	"css/images/ui-bg_highlight-hard_100_f2f5f7_1x100.png", "css/images/ui-icons_72a7cf_256x240.png",
         "css/images/ui-bg_highlight-soft_100_deedf7_1x100.png", "css/images/ui-bg_glass_80_d7ebf9_1x400.png",
@@ -10,8 +10,7 @@
         "css/images/ui-icons_2694e8_256x240.png"],
 	"content_scripts": [
 		{
-			"matches": ["http://www.zdnet.com/*", "http://www.pcpro.co.uk/*", "http://www.computerworld.com/*",
-            	"http://blogs.computerworld.com/*", "http://*.cnet.com/*"],
+			"matches": ["http://www.zdnet.com/*", "http://www.pcpro.co.uk/*", "http://*.cnet.com/*"],
 			"css": ["css/app.css", "css/jquery-ui-1.10.3.cupertino.css"],
 			"js": ["javascript/libs/jquery-1.10.2.min.js", "javascript/libs/jquery-ui.1.10.3.min.js",
              "javascript/libs/parseurl.js", "javascript/libs/waitForKeyElements.js", "javascript/app.js"]
@@ -22,7 +21,7 @@
 	},
 	"options_page": "options.html",
 	"permissions": ["tabs", "storage", "http://*.zdnet.com/", "https://*.zdnet.com/", "http://*.pcpro.co.uk/",
-    	"http://*.computerworld.com/", "http://*.cnet.com/"],
+    	"http://*.cnet.com/"],
 	"icons": {
 		"48": "images/foot48.png",
 		"128": "images/foot128.png"

@@ -153,19 +153,9 @@ $(function() {
 			//				$element.parents(".trollWrapper").prepend(getTrollString(author));
 			//			};
 			var trollPeek = function($wrapperElement) {
-              /*
-				wrapperElement = wrapperElement || ".commentWrapper";
-				console.time("trollPeek get $wrapperElement");
-				var $wrapperElement = $element.find(wrapperElement);
-				console.timeEnd("trollPeek get $wrapperElement"); 
-				$wrapperElement.show('blind', null, 200);
-               */
-              $wrapperElement.show('blind', null, 200);
-
+            	$wrapperElement.show('blind');
 			};
 			var trollHide = function($wrapperElement) {
-		//		wrapperElement = wrapperElement || ".commentWrapper";
-		//		$element.find(wrapperElement).hide('blind', null, 200);
               	$wrapperElement.hide('blind', null, 200);
 
 			};
@@ -174,20 +164,17 @@ $(function() {
 				case "zdnet":
 					authorsSelect = "#comments .author";
 					myFilter.functions.hideTrollFunc = function($author, author) {
-						//	trollWrap($($author).parents(".commentWrapper"), author);
 						$($author).parents(".commentWrapper").wrap('<div class="trollWrapper"\/>').hide();
 						$($author).parents(".trollWrapper").prepend(getTrollString(author));
 					};
 					myFilter.functions.trollPeek = function(authorElement) {
                       	var $trollWrapperElement = $(authorElement).parent().parent();
-					//	trollPeek($(wrapperElement).parent().parent());
                       	var $wrapperElement = $trollWrapperElement.find(".commentWrapper");
                       	trollPeek($wrapperElement);
 					};
 					myFilter.functions.trollUnpeek = function(authorElement) {
                         var $trollWrapperElement = $(authorElement).parent().parent();
                       	var $wrapperElement = $trollWrapperElement.find(".commentWrapper");
-				//		trollHide($(wrapperElement).parent().parent());
                       	trollHide($wrapperElement);
 					};
 					break;
@@ -198,7 +185,6 @@ $(function() {
 					if ($("#userComments").length > 0) {// News item page
 						authorsSelect = "#userComments span.bold";
 						myFilter.functions.hideTrollFunc = function($author, author) {
-							//	trollWrap($($author).parents("p").prev("p").prev("h4"), author);
 							$($author).parents("p").prev("p").prev("h4").before('<div class="trollWrapper"><div class="commentWrapper"><\/div><\/div>');
 							$($author).parents("p").prev("p").prev("h4").prev(".trollWrapper").prepend(getTrollString(author));
 							var $commentWrapper = $($author).parents("p").prev("p").prev("h4").prev(".trollWrapper").find(".commentWrapper");
@@ -208,31 +194,19 @@ $(function() {
 							$commentWrapper.hide();
 						};
 						myFilter.functions.trollPeek = function(authorElement) {
-					/*		console.time("myFilter.functions.trollPeek get $trollWrapperElement");
-							var $trollWrapperElement = $(wrapperElement).parent().parent();
-							console.timeEnd("myFilter.functions.trollPeek get $trollWrapperElement");
-							trollPeek($trollWrapperElement); */
                       	  	var $trollWrapperElement = $(authorElement).parent().parent();
                       		var $wrapperElement = $trollWrapperElement.find(".commentWrapper");
                       		trollPeek($wrapperElement);
-	
 						};
 						myFilter.functions.trollUnpeek = function(authorElement) {
-				//			trollHide($(wrapperElement).parent().parent());
                  			var $trollWrapperElement = $(authorElement).parent().parent();
               	        	var $wrapperElement = $trollWrapperElement.find(".commentWrapper");
 	                      	trollHide($wrapperElement);
 						};
-						// myFilter.functions.hideTrollFunc = function($author, author) {
-						// $($author).parents("p").prev("p").prev("h4").hide();
-						// $($author).parents("p").prev("p").hide();
-						// $($author).parents("p").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
-						// };
 
 					} else {// Blog post page
 						authorsSelect = ".commentlist span.bold";
 						myFilter.functions.hideTrollFunc = function($author, author) {
-							//	$($author).parents("li").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
 							$($author).parents("li").wrap('<div class="trollWrapper"\/>').hide();
 							$($author).parents("li").parents(".trollWrapper").prepend(getTrollString(author));
 						};
@@ -244,16 +218,27 @@ $(function() {
 						};
 					}
 					break;
-				case "computerworld":
+/*				case "computerworld":
 					authorsSelect = ".dsq-commenter-name";
 					myFilter.functions.hideTrollFunc = function($author, author) {
 						$($author).parents(".dsq-comment-body").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
 					};
-					break;
+					break; */
 				case "cnet":
 					authorsSelect = ".fyre-comment-username";
 					myFilter.functions.hideTrollFunc = function($author, author) {
-						$($author).parents(".fyre-comment-wrapper").html('<span style="font-size: 90%"><img src="' + myFilter.globals.trollImg + '"> <i>Troll ' + author + ' stomped on<\/i><\/span>');
+                    	$($author).parents(".fyre-comment-wrapper").wrap('<div class="trollWrapper"\/>').hide();
+						$($author).parents(".trollWrapper").prepend(getTrollString(author));
+					};
+					myFilter.functions.trollPeek = function(authorElement) {
+                        var $trollWrapperElement = $(authorElement).parents('.trollWrapper');
+                      	var $wrapperElement = $trollWrapperElement.find(".fyre-comment-wrapper");
+                      	trollPeek($wrapperElement);
+					};
+					myFilter.functions.trollUnpeek = function(authorElement) {
+                        var $trollWrapperElement = $(authorElement).parents('.trollWrapper');
+                      	var $wrapperElement = $trollWrapperElement.find(".fyre-comment-wrapper");
+                      	trollHide($wrapperElement);
 					};
 					break;
 			}
