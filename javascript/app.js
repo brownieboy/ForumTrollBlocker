@@ -152,16 +152,22 @@ $(function() {
 			//				$element.wrap('<div class="trollWrapper"\/>').hide();
 			//				$element.parents(".trollWrapper").prepend(getTrollString(author));
 			//			};
-			var trollPeek = function($element, wrapperElement) {
+			var trollPeek = function($wrapperElement) {
+              /*
 				wrapperElement = wrapperElement || ".commentWrapper";
 				console.time("trollPeek get $wrapperElement");
 				var $wrapperElement = $element.find(wrapperElement);
 				console.timeEnd("trollPeek get $wrapperElement"); 
 				$wrapperElement.show('blind', null, 200);
+               */
+              $wrapperElement.show('blind', null, 200);
+
 			};
-			var trollHide = function($element, wrapperElement) {
-				wrapperElement = wrapperElement || ".commentWrapper";
-				$element.find(wrapperElement).hide('blind', null, 200);
+			var trollHide = function($wrapperElement) {
+		//		wrapperElement = wrapperElement || ".commentWrapper";
+		//		$element.find(wrapperElement).hide('blind', null, 200);
+              	$wrapperElement.hide('blind', null, 200);
+
 			};
 
 			switch(domain) {
@@ -172,11 +178,17 @@ $(function() {
 						$($author).parents(".commentWrapper").wrap('<div class="trollWrapper"\/>').hide();
 						$($author).parents(".trollWrapper").prepend(getTrollString(author));
 					};
-					myFilter.functions.trollPeek = function(wrapperElement) {
-						trollPeek($(wrapperElement).parent().parent());
+					myFilter.functions.trollPeek = function(authorElement) {
+                      	var $trollWrapperElement = $(authorElement).parent().parent();
+					//	trollPeek($(wrapperElement).parent().parent());
+                      	var $wrapperElement = $trollWrapperElement.find(".commentWrapper");
+                      	trollPeek($wrapperElement);
 					};
-					myFilter.functions.trollUnpeek = function(wrapperElement) {
-						trollHide($(wrapperElement).parent().parent());
+					myFilter.functions.trollUnpeek = function(authorElement) {
+                        var $trollWrapperElement = $(authorElement).parent().parent();
+                      	var $wrapperElement = $trollWrapperElement.find(".commentWrapper");
+				//		trollHide($(wrapperElement).parent().parent());
+                      	trollHide($wrapperElement);
 					};
 					break;
 				case "pcpro":
@@ -195,14 +207,21 @@ $(function() {
 							$($author).parents("p").appendTo($commentWrapper);
 							$commentWrapper.hide();
 						};
-						myFilter.functions.trollPeek = function(wrapperElement) {
-							console.time("myFilter.functions.trollPeek get $trollWrapperElement");
+						myFilter.functions.trollPeek = function(authorElement) {
+					/*		console.time("myFilter.functions.trollPeek get $trollWrapperElement");
 							var $trollWrapperElement = $(wrapperElement).parent().parent();
 							console.timeEnd("myFilter.functions.trollPeek get $trollWrapperElement");
-							trollPeek($trollWrapperElement);
+							trollPeek($trollWrapperElement); */
+                      	  	var $trollWrapperElement = $(authorElement).parent().parent();
+                      		var $wrapperElement = $trollWrapperElement.find(".commentWrapper");
+                      		trollPeek($wrapperElement);
+	
 						};
-						myFilter.functions.trollUnpeek = function(wrapperElement) {
-							trollHide($(wrapperElement).parent().parent());
+						myFilter.functions.trollUnpeek = function(authorElement) {
+				//			trollHide($(wrapperElement).parent().parent());
+                 			var $trollWrapperElement = $(authorElement).parent().parent();
+              	        	var $wrapperElement = $trollWrapperElement.find(".commentWrapper");
+	                      	trollHide($wrapperElement);
 						};
 						// myFilter.functions.hideTrollFunc = function($author, author) {
 						// $($author).parents("p").prev("p").prev("h4").hide();
