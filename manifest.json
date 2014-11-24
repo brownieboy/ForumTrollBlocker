@@ -1,6 +1,6 @@
 {
 	"name": "Forum Troll Stomper",
-	"version": "0.35",
+	"version": "0.36",
 	"manifest_version": 2,
 	"description": "Block your (un)favourite trolls from forums such as ZDNet, PCPro and CNet.  Stomp on those suckers so you never see them again!",
 	"web_accessible_resources": ["javascript/libs/jquery-1.10.2.min.map", "images/foot19.png",  "images/foot38.png",
@@ -21,7 +21,7 @@
 	},
 	"options_page": "options.html",
 	"permissions": ["tabs", "storage", "http://*.zdnet.com/", "https://*.zdnet.com/", "http://*.pcpro.co.uk/",
-    	"http://*.cnet.com/"],
+    	"http://*.cnet.com/", "http://*.nymag.com/"],
 	"icons": {
 		"48": "images/foot48.png",
 		"128": "images/foot128.png"

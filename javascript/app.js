@@ -11,7 +11,7 @@ myFilter.globals.trollImg = chrome.extension.getURL("images/foot19.png");
 myFilter.globals.trollImgLarge = chrome.extension.getURL("images/foot38.png");
 
 // The main filter list.  An array of Author names to check off as Trolls.
-// Note that trolls like Owlnet help themselves to anew user name each time
+// Note that trolls like Owlnet help themselves to a new user name each time
 // he's banned.  So, he migh be Owlnet, Owllnet, Owlllnet and so on.  In that case,
 // I specify the name as a two part array - "owl" and "net" - and let the isTroll()
 // function check to see if both of those name chunks are in the Author name.
@@ -84,6 +84,8 @@ $(function() {
 	chrome.runtime.sendMessage({
 		"operation" : "appLoaded"
 	});
+	
+	domain = domain === "nymag" ? "cnet" : domain;
 
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
 		$("body").append('<div id="divNoTrollsMessage" style="display:none" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
@@ -225,6 +227,7 @@ $(function() {
 					};
 					break; */
 				case "cnet":
+				case "nymag":
 					authorsSelect = ".fyre-comment-username";
 					myFilter.functions.hideTrollFunc = function($author, author) {
                     	$($author).parents(".fyre-comment-wrapper").wrap('<div class="trollWrapper"\/>').hide();
