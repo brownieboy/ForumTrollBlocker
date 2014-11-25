@@ -1,38 +1,32 @@
-function parseURL(url){
-    parsed_url = {}
+// This function creates a new anchor element and uses location
+// properties (inherent) to get the desired URL data. Some String
+// operations are used (to normalize results across browsers).
+// Taken from http://james.padolsey.com/javascript/parsing-urls-with-the-dom/
 
-    if ( url == null || url.length == 0 )
-        return parsed_url;
-
-    protocol_i = url.indexOf('://');
-    parsed_url.protocol = url.substr(0,protocol_i);
-
-    remaining_url = url.substr(protocol_i + 3, url.length);
-    domain_i = remaining_url.indexOf('/');
-    domain_i = domain_i == -1 ? remaining_url.length - 1 : domain_i;
-    parsed_url.domain = remaining_url.substr(0, domain_i);
-    parsed_url.path = domain_i == -1 || domain_i + 1 == remaining_url.length ? null : remaining_url.substr(domain_i + 1, remaining_url.length);
-
-    domain_parts = parsed_url.domain.split('.');
-    switch ( domain_parts.length ){
-        case 2:
-          parsed_url.subdomain = null;
-          parsed_url.host = domain_parts[0];
-          parsed_url.tld = domain_parts[1];
-          break;
-        case 3:
-          parsed_url.subdomain = domain_parts[0];
-          parsed_url.host = domain_parts[1];
-          parsed_url.tld = domain_parts[2];
-          break;
-        case 4:
-          parsed_url.subdomain = domain_parts[0];
-          parsed_url.host = domain_parts[1];
-          parsed_url.tld = domain_parts[2] + '.' + domain_parts[3];
-          break;
-    }
-
-    parsed_url.parent_domain = parsed_url.host + '.' + parsed_url.tld;
-
-    return parsed_url;
+function parseURL(url) {
+	var a = document.createElement('a');
+	a.href = url;
+	return {
+		source : url,
+		protocol : a.protocol.replace(':', ''),
+		host : a.hostname,
+		port : a.port,
+		query : a.search,
+		params : (function() {
+			var ret = {}, seg = a.search.replace(/^\?/, '').split('&'), len = seg.length, i = 0, s;
+			for (; i < len; i++) {
+				if (!seg[i]) {
+					continue;
+				}
+				s = seg[i].split('=');
+				ret[s[0]] = s[1];
+			}
+			return ret;
+		})(),
+		file : (a.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1],
+		hash : a.hash.replace('#', ''),
+		path : a.pathname.replace(/^([^\/])/, '/$1'),
+		relative : (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [,''])[1],
+		segments : a.pathname.replace(/^\//, '').split('/')
+	};
 }

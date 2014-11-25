@@ -10,7 +10,7 @@
         "css/images/ui-icons_2694e8_256x240.png"],
 	"content_scripts": [
 		{
-			"matches": ["http://www.zdnet.com/*", "http://www.pcpro.co.uk/*", "http://*.cnet.com/*"],
+			"matches": ["http://www.zdnet.com/*", "http://www.pcpro.co.uk/*", "http://*.cnet.com/*", "http://*.nymag.com/*"],
 			"css": ["css/app.css", "css/jquery-ui-1.10.3.cupertino.css"],
 			"js": ["javascript/libs/jquery-1.10.2.min.js", "javascript/libs/jquery-ui.1.10.3.min.js",
              "javascript/libs/parseurl.js", "javascript/libs/waitForKeyElements.js", "javascript/app.js"]

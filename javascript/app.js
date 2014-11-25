@@ -80,7 +80,9 @@ $(function() {
 	console.log("Forum troll stomper started");
 	var url = parseURL(window.location.hostname);
 	// Defined in parseURL.js library
-	var domain = url.host.toLowerCase();
+	var domainFull = url.host.toLowerCase();
+	var domainFullArray = domainFull.split(".");
+	var domain = domainFullArray[0];
 	chrome.runtime.sendMessage({
 		"operation" : "appLoaded"
 	});
