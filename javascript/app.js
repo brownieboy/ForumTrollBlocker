@@ -82,7 +82,7 @@ $(function() {
 	// Defined in parseURL.js library
 	var domainFull = url.host.toLowerCase();
 	var domainFullArray = domainFull.split(".");
-	var domain = domainFullArray[0];
+	var domain = domainFullArray[0] === "www" ? domainFullArray[1] : domainFullArray[0];
 	chrome.runtime.sendMessage({
 		"operation" : "appLoaded"
 	});
