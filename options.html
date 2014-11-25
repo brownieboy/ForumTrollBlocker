@@ -19,38 +19,38 @@
 			.instructions {
 				font-size: 90%;
 			}
-                        .ui-tabs-vertical {
-                                width: 55em;
-                        }
-                        .ui-tabs-vertical .ui-tabs-nav {
-                                padding: .2em .1em .2em .2em;
-                                float: left;
-                                width: 12em;
-                        }
-                        .ui-tabs-vertical .ui-tabs-nav li {
-                                clear: left;
-                                width: 100%;
-                                border-bottom-width: 1px !important;
-                                border-right-width: 0 !important;
-                                margin: 0 -1px .2em 0;
-                        }
-                        .ui-tabs-vertical .ui-tabs-nav li a {
-                                display: block;
-                        }
-                        .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
-                                padding-bottom: 0;
-                                padding-right: .1em;
-                                border-right-width: 1px;
-                                border-right-width: 1px;
-                        }
-                        .ui-tabs-vertical .ui-tabs-panel {
-                                padding: 1em;
-                                float: right;
-                                width: 38em;
-                        }
-                        #mainTabs .ui-tabs-vertical div {
-                                padding-top:0;
-                        }
+			.ui-tabs-vertical {
+				width: 55em;
+			}
+			.ui-tabs-vertical .ui-tabs-nav {
+				padding: .2em .1em .2em .2em;
+				float: left;
+				width: 12em;
+			}
+			.ui-tabs-vertical .ui-tabs-nav li {
+				clear: left;
+				width: 100%;
+				border-bottom-width: 1px !important;
+				border-right-width: 0 !important;
+				margin: 0 -1px .2em 0;
+			}
+			.ui-tabs-vertical .ui-tabs-nav li a {
+				display: block;
+			}
+			.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
+				padding-bottom: 0;
+				padding-right: .1em;
+				border-right-width: 1px;
+				border-right-width: 1px;
+			}
+			.ui-tabs-vertical .ui-tabs-panel {
+				padding: 1em;
+				float: right;
+				width: 38em;
+			}
+			#mainTabs .ui-tabs-vertical div {
+				padding-top: 0;
+			}
 		</style>
 		<link href="css/jquery-ui-1.10.3.cupertino.css" media="screen" rel="stylesheet" type="text/css" />
 	</head>
@@ -71,52 +71,86 @@
 					</li>
 				</ul>
 				<div id="sitesTab">
-                  <input type="checkbox" name="sites" value="cnet" id="cnetCheck"><label for="cnetCheck">CNet</label><br />
-                  <!-- <input type="checkbox" name="sites" value="computerworld">Computer World<br /> -->
-                  <input type="checkbox" name="sites" value="pcpro" id="pcproCheck"><label for="pcproCheck">PC Pro UK</label><br />
-                  <input type="checkbox" name="sites" value="zdnet" id="zdnetCheck"><label for="zdnetCheck">ZDNet</label>
+					<input type="checkbox" name="sites" value="cnet" id="cnetCheck">
+					<label for="cnetCheck">CNet</label>
+					<br />
+					<!-- <input type="checkbox" name="sites" value="computerworld">Computer World<br /> -->
+					<!-- <input type="checkbox" name="sites" value="pcpro" id="pcproCheck"><label for="pcproCheck">PC Pro UK</label><br /> -->
+					<input type="checkbox" name="sites" value="nymag" id="nymagCheck">
+					<label for="nymagCheck">New York (nymag)</label>
+					<br />
+					<input type="checkbox" name="sites" value="zdnet" id="zdnetCheck">
+					<label for="zdnetCheck">ZDNet</label>
 				</div>
-				<div id="trollListsTab">  
-                    <div id="listsTabs">
-                        <ul>
-                            <li><a href="#tabs-cnet">CNet</a></li>
-                      <!--      <li><a href="#tabs-computerworld">Computer World</a></li> -->
-                            <li><a href="#tabs-pcpro">PC Pro UK</a></li>
-                            <li><a href="#tabs-zdnet">ZDNet</a></li>
-                        </ul>
-                        <div id="tabs-cnet">
-                            <h3>CNet</h3>
-                            <p><textarea id="cnetTrollList" class="trollList"></textarea></p>
-                        </div>
-                  <!--      <div id="tabs-computerworld">
-                            <h3>Computer World</h3>
-                            <p><textarea id="computerworldTrollList" class="trollList"></textarea></p>
-                        </div> -->
-                        <div id="tabs-pcpro">
-                            <h3>PC Pro (UK)</h3>
-                            <p><textarea id="pcproTrollList" class="trollList"></textarea></p>
-                        </div>
-                        <div id="tabs-zdnet">
-                            <h3>ZDNet</h3>
-                            <p><textarea id="zdnetTrollList" class="trollList"></textarea></p>
-                        </div>
+				<div id="trollListsTab">
+					<div id="listsTabs">
+						<ul>
+							<li>
+								<a href="#tabs-cnet">CNet</a>
+							</li>
+							<!--      <li><a href="#tabs-computerworld">Computer World</a></li> -->
+							<!-- <li>
+								<a href="#tabs-pcpro">PC Pro UK</a>
+							</li> -->
+							<li>
+								<a href="#tabs-nymag">New York (nymag)</a>
+							</li>
 
-                    </div>
-                  <br /><b>Troll List Instructions:</b>
-                <ul>
-                  <li>Enter each new troll on a new line</li>
-				  <li>All name matches are partial. So "toddbottom" will block "toddbottom", "toddbottom2", "toddbottom3" and so on.</li>
-				  <li>Enter comma seperated names to block patterns. E.g. entering"owl,net" will block trolls "owlnet", "owlllnet", "owllllllnet23" and so on.</li>
-				  <li>The number on the icon shows number of trolls blocked in this session.</li>
-              </ul>
-                </div>
+							<li>
+								<a href="#tabs-zdnet">ZDNet</a>
+							</li>
+						</ul>
+						<div id="tabs-cnet">
+							<h3>CNet</h3>
+							<p>
+								<textarea id="cnetTrollList" class="trollList"></textarea>
+</p>						</div>
+						<!--      <div id="tabs-computerworld">
+						<h3>Computer World</h3>
+						<p><textarea id="computerworldTrollList" class="trollList"></textarea></p>
+						</div> -->
+						<!-- <div id="tabs-pcpro">
+						<h3>PC Pro (UK)</h3>
+						<p><textarea id="pcproTrollList" class="trollList"></textarea></p>
+						</div> -->
+						<div id="tabs-nymag">
+							<h3>New York (nymag.com)</h3>
+							<p>
+								<textarea id="nymagTrollList" class="trollList"></textarea>
+</p>						</div>
+						<div id="tabs-zdnet">
+							<h3>ZDNet</h3>
+							<p>
+								<textarea id="zdnetTrollList" class="trollList"></textarea>
+</p>						</div>
+
+					</div>
+					<br />
+					<b>Troll List Instructions:</b>
+					<ul>
+						<li>
+							Enter each new troll on a new line
+						</li>
+						<li>
+							All name matches are partial. So "toddbottom" will block "toddbottom", "toddbottom2", "toddbottom3" and so on.
+						</li>
+						<li>
+							Enter comma seperated names to block patterns. E.g. entering"owl,net" will block trolls "owlnet", "owlllnet", "owllllllnet23" and so on.
+						</li>
+						<li>
+							The number on the icon shows number of trolls blocked in this session.
+						</li>
+					</ul>
 				</div>
 			</div>
+		</div>
 
-			<p><button id="butSaveSettings">
+		<p>
+			<button id="butSaveSettings">
 				Save Settings
-              </button></p>
-			<br />
+			</button>
+		</p>
+		<br />
 		</div>
 		<!-- <script src="http://code.jquery.com/jquery-1.9.1.js" type="text/javascript"></script> -->
 

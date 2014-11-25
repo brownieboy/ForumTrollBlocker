@@ -86,8 +86,6 @@ $(function() {
 	chrome.runtime.sendMessage({
 		"operation" : "appLoaded"
 	});
-	
-	domain = domain === "nymag" ? "cnet" : domain;
 
 	chrome.storage.sync.get('forumBlockerSettings', function(settings) {
 		$("body").append('<div id="divNoTrollsMessage" style="display:none" title="No Trolls Defined"><div style="float:left; margin-top:10px"><img src="' + myFilter.globals.trollImgLarge + '"><\/div><div style="float:left; width:220px; margin-left:15px; margin-top:5px"><p>Forum Troll Stomper is running on this site, but you have not defined any trolls.  You\'re just wasting CPU cycles!<\/p><p>Please define some trolls or disable the extension.<\/div><\/div>');
@@ -182,46 +180,46 @@ $(function() {
                       	trollHide($wrapperElement);
 					};
 					break;
-				case "pcpro":
-					// PCPro does their comments in two different ways.  They maybe in a userComments id
-					// (news item comments) or a commentList class (blog post comments) each with its own
-					// HTML layout.  We have to cater for both of those.
-					if ($("#userComments").length > 0) {// News item page
-						authorsSelect = "#userComments span.bold";
-						myFilter.functions.hideTrollFunc = function($author, author) {
-							$($author).parents("p").prev("p").prev("h4").before('<div class="trollWrapper"><div class="commentWrapper"><\/div><\/div>');
-							$($author).parents("p").prev("p").prev("h4").prev(".trollWrapper").prepend(getTrollString(author));
-							var $commentWrapper = $($author).parents("p").prev("p").prev("h4").prev(".trollWrapper").find(".commentWrapper");
-							$($author).parents("p").prev("p").prev("h4").appendTo($commentWrapper);
-							$($author).parents("p").prev("p").appendTo($commentWrapper);
-							$($author).parents("p").appendTo($commentWrapper);
-							$commentWrapper.hide();
-						};
-						myFilter.functions.trollPeek = function(authorElement) {
-                      	  	var $trollWrapperElement = $(authorElement).parent().parent();
-                      		var $wrapperElement = $trollWrapperElement.find(".commentWrapper");
-                      		trollPeek($wrapperElement);
-						};
-						myFilter.functions.trollUnpeek = function(authorElement) {
-                 			var $trollWrapperElement = $(authorElement).parent().parent();
-              	        	var $wrapperElement = $trollWrapperElement.find(".commentWrapper");
-	                      	trollHide($wrapperElement);
-						};
-
-					} else {// Blog post page
-						authorsSelect = ".commentlist span.bold";
-						myFilter.functions.hideTrollFunc = function($author, author) {
-							$($author).parents("li").wrap('<div class="trollWrapper"\/>').hide();
-							$($author).parents("li").parents(".trollWrapper").prepend(getTrollString(author));
-						};
-						myFilter.functions.trollPeek = function(wrapperElement) {
-							trollPeek($(wrapperElement).parents(".trollWrapper"), "> li");
-						};
-						myFilter.functions.trollUnpeek = function(wrapperElement) {
-							trollHide($(wrapperElement).parents(".trollWrapper"), "> li");
-						};
-					}
-					break;
+				// case "pcpro":
+					// // PCPro does their comments in two different ways.  They maybe in a userComments id
+					// // (news item comments) or a commentList class (blog post comments) each with its own
+					// // HTML layout.  We have to cater for both of those.
+					// if ($("#userComments").length > 0) {// News item page
+						// authorsSelect = "#userComments span.bold";
+						// myFilter.functions.hideTrollFunc = function($author, author) {
+							// $($author).parents("p").prev("p").prev("h4").before('<div class="trollWrapper"><div class="commentWrapper"><\/div><\/div>');
+							// $($author).parents("p").prev("p").prev("h4").prev(".trollWrapper").prepend(getTrollString(author));
+							// var $commentWrapper = $($author).parents("p").prev("p").prev("h4").prev(".trollWrapper").find(".commentWrapper");
+							// $($author).parents("p").prev("p").prev("h4").appendTo($commentWrapper);
+							// $($author).parents("p").prev("p").appendTo($commentWrapper);
+							// $($author).parents("p").appendTo($commentWrapper);
+							// $commentWrapper.hide();
+						// };
+						// myFilter.functions.trollPeek = function(authorElement) {
+                      	  	// var $trollWrapperElement = $(authorElement).parent().parent();
+                      		// var $wrapperElement = $trollWrapperElement.find(".commentWrapper");
+                      		// trollPeek($wrapperElement);
+						// };
+						// myFilter.functions.trollUnpeek = function(authorElement) {
+                 			// var $trollWrapperElement = $(authorElement).parent().parent();
+              	        	// var $wrapperElement = $trollWrapperElement.find(".commentWrapper");
+	                      	// trollHide($wrapperElement);
+						// };
+// 
+					// } else {// Blog post page
+						// authorsSelect = ".commentlist span.bold";
+						// myFilter.functions.hideTrollFunc = function($author, author) {
+							// $($author).parents("li").wrap('<div class="trollWrapper"\/>').hide();
+							// $($author).parents("li").parents(".trollWrapper").prepend(getTrollString(author));
+						// };
+						// myFilter.functions.trollPeek = function(wrapperElement) {
+							// trollPeek($(wrapperElement).parents(".trollWrapper"), "> li");
+						// };
+						// myFilter.functions.trollUnpeek = function(wrapperElement) {
+							// trollHide($(wrapperElement).parents(".trollWrapper"), "> li");
+						// };
+					// }
+					// break;
 /*				case "computerworld":
 					authorsSelect = ".dsq-commenter-name";
 					myFilter.functions.hideTrollFunc = function($author, author) {
