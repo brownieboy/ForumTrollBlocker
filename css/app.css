@@ -29,3 +29,8 @@
 .spanBlocked img {
 	margin-right: 5px;
 }
+
+.trollWrapper .spanBlocked .smallTrollBlockImage {
+	width: 19px;
+	height: 19px;
+}

@@ -148,7 +148,7 @@ $(function() {
 
 			// Setup functions and selectors based on our current domain/site.
 			var getTrollString = function(author) {
-				return '<span class="spanBlocked"><img src="' + myFilter.globals.trollImg + '"> <i>Stomped on troll ' + author + '<\/i>. <a href="#" class="aTrollPeek">troll peek</a><\/span>';
+				return '<span class="spanBlocked"><img src="' + myFilter.globals.trollImg + '" class="smallTrollBlockImage"> <i>Stomped on troll ' + author + '<\/i>. <a href="#" class="aTrollPeek">troll peek</a><\/span>';
 			};
 			//			var trollWrap = function($element, author) {
 			//				$element.wrap('<div class="trollWrapper"\/>').hide();
@@ -163,23 +163,23 @@ $(function() {
 			};
 
 			switch(domain) {
-				case "zdnet":
-					authorsSelect = "#comments .author";
-					myFilter.functions.hideTrollFunc = function($author, author) {
-						$($author).parents(".commentWrapper").wrap('<div class="trollWrapper"\/>').hide();
-						$($author).parents(".trollWrapper").prepend(getTrollString(author));
-					};
-					myFilter.functions.trollPeek = function(authorElement) {
-                      	var $trollWrapperElement = $(authorElement).parent().parent();
-                      	var $wrapperElement = $trollWrapperElement.find(".commentWrapper");
-                      	trollPeek($wrapperElement);
-					};
-					myFilter.functions.trollUnpeek = function(authorElement) {
-                        var $trollWrapperElement = $(authorElement).parent().parent();
-                      	var $wrapperElement = $trollWrapperElement.find(".commentWrapper");
-                      	trollHide($wrapperElement);
-					};
-					break;
+				// case "zdnet":
+				// 	authorsSelect = "#comments .author";
+				// 	myFilter.functions.hideTrollFunc = function($author, author) {
+				// 		$($author).parents(".commentWrapper").wrap('<div class="trollWrapper"\/>').hide();
+				// 		$($author).parents(".trollWrapper").prepend(getTrollString(author));
+				// 	};
+				// 	myFilter.functions.trollPeek = function(authorElement) {
+    //                   	var $trollWrapperElement = $(authorElement).parent().parent();
+    //                   	var $wrapperElement = $trollWrapperElement.find(".commentWrapper");
+    //                   	trollPeek($wrapperElement);
+				// 	};
+				// 	myFilter.functions.trollUnpeek = function(authorElement) {
+    //                     var $trollWrapperElement = $(authorElement).parent().parent();
+    //                   	var $wrapperElement = $trollWrapperElement.find(".commentWrapper");
+    //                   	trollHide($wrapperElement);
+				// 	};
+					// break;
 				// case "pcpro":
 					// // PCPro does their comments in two different ways.  They maybe in a userComments id
 					// // (news item comments) or a commentList class (blog post comments) each with its own
@@ -228,6 +228,7 @@ $(function() {
 					break; */
 				case "cnet":
 				case "nymag":
+				case "zdnet":
 					authorsSelect = ".fyre-comment-username";
 					myFilter.functions.hideTrollFunc = function($author, author) {
                     	$($author).parents(".fyre-comment-wrapper").wrap('<div class="trollWrapper"\/>').hide();
